@@ -6,6 +6,8 @@ pycellfit
     :target: https://travis-ci.com/NilaiVemula/pycellfit
 .. image:: https://codecov.io/gh/NilaiVemula/pycellfit/branch/master/graph/badge.svg
   :target: https://codecov.io/gh/NilaiVemula/pycellfit
+.. image:: https://badge.fury.io/py/pycellfit.svg
+    :target: https://badge.fury.io/py/pycellfit
 
 Project Description
 --------
