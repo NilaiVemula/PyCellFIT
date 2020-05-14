@@ -13,10 +13,3 @@ script:
   - pytest --cov-report html --cov-report xml --cov=./
   - codecov
 
-deploy:
-  provider: pypi
-  user: "__token__"
-  password:
-    secure: "123RBz8HRrRK2qGnR+WxKn99I2wgWz/06npzgi0D6uUB88J0KgEVu82g/GMVTLfE6MwynCHJzEIkBvapmYc8rluNJEqJxNDx8bE/gu0K1yph5lQp8wtLAp23ePQohcGuRnWlJrJn5CLkki2YvNfFJkYAg3JcBMj3wYXvN71IIeNLI+kBXUQgAq9u0bOSSIchjeiWQwmJYIx2ueo9q5Fs4IN7vWdSCuk6a3g+ck9zuanHtJFPrbxgPNo/welElW3ZjF+mEgzE3xdk2EMK4DSkChNVF/eTfU2BvHVa9A1gZhl6ritUqiZ+CVB3W+7mEiv1fdNezuUtzsZFZlffaBp86j4IJyBWbBQfiJunL/9IMzq736NWwHz8WKWIPpic2x4lPU6HC1Fr6Ng3rrl+ywsXGeyIqkU/hg/KzANYBq4MtOYuP4UCfbSvXnwWG6EegJWiMJjJKRPbSgAyqDC/CTsHQO7v67Jx3yryMGZ3NqiASf4jWeRQFQ8jao7GWvfokIpXuO5oibr81ZjFlFl4vp+4789m6MDeCFqSa/pOQbZm3kG9sCkdA6tcPcFxgliN7ApKz3t22N/kjhrCPkdoJurEQCeRquSOG5jJvVKKWUza32tw/0BD3L8cT+6EXCeLeseqAacDjQm4H6jjsHTcVIbkYrBa+zmzm7ya8cE43DRqhHrdwA="
-#  on:
-#    tags: true
