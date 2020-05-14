@@ -4,8 +4,8 @@ pycellfit
 
 .. image:: https://travis-ci.com/NilaiVemula/pycellfit.svg?branch=master
     :target: https://travis-ci.com/NilaiVemula/pycellfit
-.. image:: https://codecov.io/gh/codecov/pycellfit/branch/master/graph/badge.svg
-  :target: https://codecov.io/gh/codecov/pycellfit
+.. image:: https://codecov.io/gh/NilaiVemula/pycellfit/branch/master/graph/badge.svg
+  :target: https://codecov.io/gh/NilaiVemula/pycellfit
 
 Project Description
 --------
