@@ -39,5 +39,4 @@ setup(
     ],
     test_suite='tests',
     tests_require=test_requirements,
-    cmdclass={'test': PyTest},
 )
