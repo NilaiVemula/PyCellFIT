@@ -44,6 +44,10 @@ Dependencies
 * numpy
 * twine
 
+Development
+-----------
+This project is under active development. The project is built using Travis CI, and all tests are run with every commit or merger.
+
 Features
 --------
 This section will include a list of features available in the package and maybe a check-list of things to add
