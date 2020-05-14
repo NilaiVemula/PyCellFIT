@@ -1,9 +1,9 @@
-'''
+"""
     This file contains test cases for pycellfit.py file
-'''
+"""
 
 import unittest
-import pycellfit.pycellfit
+import pycellfit
 
 
 class TestHello(unittest.TestCase):
@@ -12,7 +12,7 @@ class TestHello(unittest.TestCase):
     """
 
     def test_hello(self):
-        ans = pycellfit.pycellfit.hello()
+        ans = pycellfit.utils.hello()
 
         # Case 1
         self.assertEqual(ans, "hello new")
