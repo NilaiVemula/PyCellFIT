@@ -5,6 +5,9 @@ from setuptools.command.test import test as TestCommand
 
 # explicitly config
 test_args = [
+    '--cov-report=term',
+    '--cov-report=html',
+    '--cov=pycellfit',
     'tests'
 ]
 
