@@ -12,11 +12,24 @@ Project Description
 
 **Project Timeline**: Initial project started in August 2019 with work based off of XJ Xu. This repository was re-made in May 2020 in order to restart repository structure.
 
-**Project Status**: **Early development**
+**Project Status**: **Early development/Planning**
 
 Getting Started
 --------
-This project *will* be available on PyPI. For now, simply clone this repository and ... ??
+This project is available on  `PyPI <https://pypi.org/project/pycellfit/>`_. For now, simply clone this repository and ... ??
+
+Making a development virtual environment (in Windows command prompt):
+Assuming you are in the base directory of this repository
+.. code-block:: console
+
+   > python -m venv pycellfit_dev
+   > pycellfit_dev\Scripts\activate
+   > pip install -r requirements_dev.txt
+   
+Dependencies
+^^^^^^
+* numpy
+* twine
 
 Features
 --------
