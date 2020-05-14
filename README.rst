@@ -3,11 +3,14 @@ pycellfit
 =====
 
 .. image:: https://travis-ci.com/NilaiVemula/pycellfit.svg?branch=master
-    :target: https://travis-ci.com/NilaiVemula/pycellfit
+  :target: https://travis-ci.com/NilaiVemula/pycellfit
 .. image:: https://codecov.io/gh/NilaiVemula/pycellfit/branch/master/graph/badge.svg
   :target: https://codecov.io/gh/NilaiVemula/pycellfit
+.. image:: https://readthedocs.org/projects/pycellfit/badge/?version=latest
+  :target: https://pycellfit.readthedocs.io/en/latest/?badge=latest
+  :alt: Documentation Status
 .. image:: https://badge.fury.io/py/pycellfit.svg
-    :target: https://badge.fury.io/py/pycellfit
+  :target: https://badge.fury.io/py/pycellfit
 
 Project Description
 --------
