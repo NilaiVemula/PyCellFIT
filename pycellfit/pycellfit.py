@@ -13,3 +13,11 @@ def hello2():
 
     print("Hello World!2")
     return "hello new"
+
+def hello3():
+    """
+    simple hello world2 function to test initial commit
+    """
+
+    print("still testing")
+    return "hello new?"
