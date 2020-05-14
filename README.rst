@@ -23,7 +23,9 @@ Assuming you are in the base directory of this repository
 .. code-block:: console
 
    > python -m venv pycellfit_dev
+   
    > pycellfit_dev\Scripts\activate
+   
    > pip install -r requirements_dev.txt
    
 Dependencies
