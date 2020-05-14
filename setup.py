@@ -3,6 +3,15 @@ import sys
 from setuptools import setup, find_packages
 from setuptools.command.test import test as TestCommand
 
+# explicitly config
+test_args = [
+    '--cov-report=term',
+    '--cov-report=html',
+    '--cov=tflearn',
+    'tests'
+]
+
+
 class PyTest(TestCommand):
     user_options = [('pytest-args=', 'a', "Arguments to pass to py.test")]
 
@@ -42,5 +51,5 @@ setup(
         "Natural Language :: English"
     ],
     test_suite='tests',
-      cmdclass={'test': PyTest},
+    cmdclass={'test': PyTest},
 )
