@@ -1,4 +1,4 @@
-pycellfit's documentation
+pycellfit Documentation
 =====================================
 
 Written by Nilai Vemula
