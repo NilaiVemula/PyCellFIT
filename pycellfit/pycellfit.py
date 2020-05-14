@@ -4,4 +4,4 @@ def hello():
     """
 
     print("Hello World!")
-    return "hello"
+    return "hello new"
