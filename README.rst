@@ -1,6 +1,6 @@
-=====
+=========
 pycellfit
-=====
+=========
 
 .. image:: https://travis-ci.com/NilaiVemula/pycellfit.svg?branch=master
   :target: https://travis-ci.com/NilaiVemula/pycellfit
@@ -13,7 +13,7 @@ pycellfit
   :target: https://badge.fury.io/py/pycellfit
 
 Project Description
---------
+-------------------
 **pycellfit**: an open-source Python implementation of the CellFIT method of inferring cellular forces developed by Brodland et al.
 
 **Author**: Nilai Vemula, Vanderbilt University (working under Dr. Shane Hutson, Vanderbilt University)
@@ -25,7 +25,7 @@ Project Description
 **Project Status**: **Early development/Planning**
 
 Getting Started
---------
+---------------
 This project is available on  `PyPI <https://pypi.org/project/pycellfit/>`_. For now, simply clone this repository and ... ??
 
 Making a development virtual environment (in Windows command prompt):
@@ -40,7 +40,7 @@ Assuming you are in the base directory of this repository
    > pip install -r requirements_dev.txt
    
 Dependencies
-^^^^^^
+^^^^^^^^^^^^
 * numpy
 * twine
 
@@ -53,10 +53,10 @@ Examples
 This section will walk through an example of the basic pycellfit pipeline.
 
 Future Goals
---------
+------------
 The final implementation of pycellfit will be as a web-app based on the Django framework.
 
 References
---------
+----------
 .. [1] Brodland GW, Veldhuis JH, Kim S, Perrone M, Mashburn D, et al. (2014) CellFIT: A Cellular Force-Inference Toolkit Using Curvilinear Cell Boundaries. PLOS ONE 9(6): e99116. https://doi.org/10.1371/journal.pone.0099116
 
