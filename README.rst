@@ -12,6 +12,8 @@ Project Description
 
 **Project Timeline**: Initial project started in August 2019 with work based off of XJ Xu. This repository was re-made in May 2020 in order to restart repository structure.
 
+**Project Status**: **Early development**
+
 Getting Started
 --------
 This project *will* be available on PyPI. For now, simply clone this repository and ... ??
