@@ -15,7 +15,7 @@ class TestHello(unittest.TestCase):
         ans = pycellfit.pycellfit.hello()
 
         # Case 1
-        self.assertEqual(ans, "hello")
+        self.assertEqual(ans, "hello new")
 
 
 if __name__ == "__main__":
