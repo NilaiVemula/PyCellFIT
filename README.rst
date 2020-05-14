@@ -20,6 +20,7 @@ This project is available on  `PyPI <https://pypi.org/project/pycellfit/>`_. For
 
 Making a development virtual environment (in Windows command prompt):
 Assuming you are in the base directory of this repository
+
 .. code-block:: console
 
    > python -m venv pycellfit_dev
