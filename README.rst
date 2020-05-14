@@ -2,6 +2,9 @@
 pycellfit
 =====
 
+.. image:: https://travis-ci.com/NilaiVemula/pycellfit.svg?branch=master
+    :target: https://travis-ci.com/NilaiVemula/pycellfit
+
 Project Description
 --------
 **pycellfit**: an open-source Python implementation of the CellFIT method of inferring cellular forces developed by Brodland et al.
