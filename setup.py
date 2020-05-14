@@ -1,13 +1,23 @@
 #!/usr/bin/env python
-import sys
+# -*- coding: utf-8 -*-
+
+"""Setup script"""
+
 from setuptools import setup, find_packages
-from setuptools.command.test import test as TestCommand
 
 with open("README.rst", "r") as readme_file:
     readme = readme_file.read()
 
 # todo: edit to include all dependencies
-requirements = ['numpy>=1.18']
+
+test_requirements = [
+    'codecov',
+    'pytest',
+    'pytest-cov',
+]
+
+with open('requirements.txt', 'r') as f:
+    requirements = f.read().splitlines()
 
 setup(
     name='pycellfit',
@@ -28,5 +38,6 @@ setup(
         "Natural Language :: English"
     ],
     test_suite='tests',
+    tests_require=test_requirements,
     cmdclass={'test': PyTest},
 )
