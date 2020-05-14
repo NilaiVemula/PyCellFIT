@@ -3,7 +3,9 @@ attrs==19.3.0
 bleach==3.1.5
 certifi==2020.4.5.1
 chardet==3.0.4
+codecov==2.0.22
 colorama==0.4.3
+coverage==5.1
 docutils==0.16
 idna==2.9
 keyring==21.2.1
