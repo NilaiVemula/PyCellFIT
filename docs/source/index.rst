@@ -1,14 +1,18 @@
-pycellfit Documentation
-=====================================
+Table of Contents
+==================
 
-Written by Nilai Vemula
-
-Guide
-^^^^^
 .. toctree::
    :maxdepth: 2
 
-.. include:: ../../README.rst
+    Overview and install <self>
+    Package modules <modules>
+
+
+README
+==================
+
+.. include:: readme_link.rst
+
 
 Indices and tables
 ==================

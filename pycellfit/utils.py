@@ -29,12 +29,12 @@ def read_segmented_image(file_name, visualize=False):
         raise TypeError("Invalid File Type. File must be a .tif or .tiff")
 
     im = PIL.Image.open(file_name)
-    imarray = np.array(im)
+    img_array = np.array(im)
 
     if visualize:
-        plt.imshow(imarray, cmap='gray', origin='lower', interpolation="nearest")
+        plt.imshow(img_array, cmap='gray', origin='lower', interpolation="nearest")
 
-    return imarray
+    return img_array
 
 
 def contains_triple_junction(linestring, list_of_points):
