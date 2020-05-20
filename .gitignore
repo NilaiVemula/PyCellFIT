@@ -203,3 +203,6 @@ fabric.properties
 # virtual environment
 pycellfit_dev/
 pycellfit_user/
+
+# ignore full idea folder
+.idea/
