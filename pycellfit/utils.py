@@ -4,7 +4,7 @@ __author__ = "Nilai Vemula"
 
 import os
 
-import PIL as Image
+import PIL.Image
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -28,7 +28,7 @@ def read_segmented_image(file_name, visualize=False):
     if not (extension == '.tif' or extension == '.tiff'):
         raise TypeError("Invalid File Type. File must be a .tif or .tiff")
 
-    im = Image.open(file_name)
+    im = PIL.Image.open(file_name)
     imarray = np.array(im)
 
     if visualize:

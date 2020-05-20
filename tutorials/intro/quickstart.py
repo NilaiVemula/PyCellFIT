@@ -8,10 +8,10 @@ from pycellfit.utils import read_segmented_image
 def main():
     filename = 'hex.tif'
 
-    imgarray = read_segmented_image(filename, visualize=True)
+    img_array = read_segmented_image(filename, visualize=True)
     plt.show()
 
-    print(imgarray)
+    print(img_array)
 
 
 if __name__ == '__main__':

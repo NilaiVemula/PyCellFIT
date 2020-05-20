@@ -13,7 +13,7 @@ class TestUtils(unittest.TestCase):
     """
 
     def test_read_segmented_image(self):
-        array = pycellfit.utils.read_segmented_image('images/hex.tif')
+        array = pycellfit.utils.read_segmented_image('tests/images/hex.tif')
 
         # Case 1
         self.assertEqual(array[0, 0], 0)
