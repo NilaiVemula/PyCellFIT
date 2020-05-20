@@ -3,19 +3,20 @@
 """
 
 import unittest
+
 import pycellfit
 
 
-class TestHello(unittest.TestCase):
+class TestUtils(unittest.TestCase):
     """
-        This class contains test cases for the functions in pycellfit/pycellfit.py
+        This class contains test cases for the functions in pycellfit/utils.py
     """
 
-    def test_hello(self):
-        ans = pycellfit.utils.hello()
+    def test_read_segmented_image(self):
+        array = pycellfit.utils.read_segmented_image('images/hex.tif')
 
         # Case 1
-        self.assertEqual(ans, "hello new")
+        self.assertEqual(array[0, 0], 0)
 
 
 if __name__ == "__main__":
