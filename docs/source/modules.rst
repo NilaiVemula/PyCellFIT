@@ -5,3 +5,5 @@ pycellfit
    :maxdepth: 4
 
    pycellfit
+
+.. module:: pycellfit
