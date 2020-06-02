@@ -1,3 +1,5 @@
+""" Constrained Circle Fit. Fit points to a circular arc when the two end points are fixed."""
+
 # Optimal Arc When Two Points Are Known
 # https://arxiv.org/pdf/1504.06582.pdf
 
