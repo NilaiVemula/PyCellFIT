@@ -1,6 +1,9 @@
 pycellfit package
 =============
 
+Submodules
+----------
+
 pycellfit.utils module
 -----------------------
 
@@ -45,6 +48,15 @@ pycellfit.constrained_circle_fit module
 -----------------------
 
 .. automodule:: pycellfit.constrained_circle_fit
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: pycellfit
    :members:
    :undoc-members:
    :show-inheritance:
