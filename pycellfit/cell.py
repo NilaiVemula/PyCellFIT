@@ -1,6 +1,11 @@
+import itertools
+
+
 class Cell:
-    def __init__(self, id_):
-        self.id = id_
+    id_iter = itertools.count()
+
+    def __init__(self):
+        self._label = next(Cell.id_iter)
 
         # list of tuples
         self.edge_point_list = []
@@ -16,4 +21,7 @@ class Cell:
         self.remove_duplicate_edge_points()
 
     def __str__(self):
-        return 'Cell {}'.format(self.id)
+        return str('Cell {}'.format(self._label))
+
+    def __repr__(self):
+        return repr('Cell {}'.format(self._label))

@@ -1,8 +1,14 @@
+import itertools
+
+
 class Junction:
+    id_iter = itertools.count()
+
     def __init__(self, coordinates):
-        self.coordinates = coordinates
+        self._coordinates = coordinates
         self._edges = []
         self._tension_vectors = []
+        self._label = next(Junction.id_iter)
 
     @property
     def coordinates(self):
@@ -53,6 +59,10 @@ class Junction:
         """ add tension to tension_vectors, make sure no repeat tension_vectors """
         if vector not in self._tension_vectors:
             self._tension_vectors.append(vector)
+
+    @property
+    def degree(self):
+        return len(self._edges)
 
     def __eq__(self, other):
         return self.coordinates == other.coordinates

@@ -1,7 +1,11 @@
+import itertools
+
 from . import junction
 
 
 class Edge:
+    id_iter = itertools.count()
+
     def __init__(self, start_node, end_node, radius, center):
         self._start_node = start_node
         self._end_node = end_node
@@ -11,6 +15,7 @@ class Edge:
         self._mesh_points = []
         self._junctions = [start_node, end_node]
         self._cells = []
+        self._label = next(Edge.id_iter)
 
     @property
     def start_node(self):
