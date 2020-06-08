@@ -52,6 +52,29 @@ pycellfit.constrained_circle_fit module
    :undoc-members:
    :show-inheritance:
 
+pycellfit.circle_fit_helpers module
+-----------------------
+
+.. automodule:: pycellfit.circle_fit_helpers
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pycellfit.segmentation_transform module
+-----------------------
+
+.. automodule:: pycellfit.segmentation_transform
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pycellfit.segmentation_transform_utils module
+-----------------------
+
+.. automodule:: pycellfit.segmentation_transform_utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 Module contents
 ---------------
