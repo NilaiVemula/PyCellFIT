@@ -49,3 +49,16 @@ def fill_region(array_of_pixels, position, new_value):
     row, col = position
     old_value = array_of_pixels[row, col]
     fill_recursively(array_of_pixels, position, old_value, new_value)
+
+
+# constant value that the image array is padded with
+PAD_VALUE = -1
+
+
+def pad_with(vector, pad_width, iaxis, kwargs):
+    """helper function that is called by np.pad to surround a nparray with a constant value
+    Example: [[0,0],[0,0]] becomes [[-1,-1,-1, -1],[-1, 0, 0, -1],[-1, 0, 0, -1],[-1,-1,-1, -1]]
+    """
+    pad_value = kwargs.get('padder', PAD_VALUE)
+    vector[:pad_width[0]] = pad_value
+    vector[-pad_width[1]:] = pad_value
