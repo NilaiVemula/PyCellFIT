@@ -21,13 +21,22 @@ def skeleton_to_watershed(skeleton_image_array, region_value=0, boundary_value=2
     :rtype watershed_image_array: np.ndarray
     """
 
-    # throw error if skeleton_image_array is not two dimensions
-    if np.ndim(skeleton_image_array) != 2:
-        raise ValueError()
-
     # throw error if skeleton_image_array is not np.ndarray
     if not isinstance(skeleton_image_array, np.ndarray):
-        raise TypeError()
+        raise TypeError("skeleton_image_array must be of type numpy.ndarray")
+
+    # throw error if skeleton_image_array is not two dimensions
+    if np.ndim(skeleton_image_array) != 2:
+        raise ValueError("skeleton_image_array must be two-dimensional")
+
+    # throw error if array contains more than two values
+    if not (np.unique(skeleton_image_array).shape == (2,)):
+        raise ValueError("skeleton_image_array does not have only two values")
+
+    # throw error if array contains values other than region_value and boundary_value
+    if not (np.array_equal(np.unique(skeleton_image_array), [0, 255]) or np.array_equal(np.unique(
+            skeleton_image_array), [255, 0])):
+        raise ValueError("skeleton_image_array contains values other than region_value and boundary_value")
 
     # copy input array (skeleton image)
     watershed_image_array = np.copy(skeleton_image_array)
@@ -62,6 +71,26 @@ def skeleton_to_watershed(skeleton_image_array, region_value=0, boundary_value=2
     fill_region(watershed_image_array, background_position, new_value=0)
 
     # TODO: remove boundaries
+    # remove boundaries between regions
+    with np.nditer(watershed_image_array, flags=['multi_index'], op_flags=['readwrite']) as iterator:
+        for pixel_value in iterator:
+            if pixel_value != boundary_value:
+                # don't modify pixel values that are not boundaries
+                break
+            if pixel_value == boundary_value:
+                position = iterator.multi_index
+                north = tuple(map(lambda i, j: i + j, position, (-1, 0)))
+                east = tuple(map(lambda i, j: i + j, position, (0, 1)))
+                # try:
+                #     north_value = watershed_image_array[north]
+                # except IndexError:
+                #     print("trying to modify edge pixel")
+                if watershed_image_array[north] != boundary_value:
+                    pixel_value = watershed_image_array[north]
+                elif watershed_image_array[east] != boundary_value:
+                    pixel_value = watershed_image_array[east]
+                else:
+                    print("fuck")
 
     return watershed_image_array
 
@@ -102,5 +131,10 @@ def watershed_to_skeleton(watershed_image_array, region_value=0, boundary_value=
 
             if len(neighboring_values) >= 2:
                 skeleton[row - 1, col - 1] = boundary_value
+
     # FIXME: right most column and bottom row have boundary_value when they should not be
+    # temporary fix: set values in last row and column to region_value
+    skeleton[-1, :] = region_value
+    skeleton[:, -1] = region_value
+
     return skeleton

@@ -1,6 +1,5 @@
 import numpy as np
 
-
 def fill_recursively(array_of_pixels, position, old_value, new_value):
     """recursive function to replace the value of a pixel and all surrounding pixels to a new value
 
