@@ -29,10 +29,10 @@ class TestUtils(unittest.TestCase):
         self.assertIsNone(np.testing.assert_array_equal(actual_result, expected_result))
 
     def test_watershed_to_skeleton(self):
-        hex_array = read_segmented_image('images/hex.tif')
+        hex_array = read_segmented_image('tests/images/hex.tif')
         skeleton_array = pycellfit.segmentation_transform.watershed_to_skeleton(hex_array)
 
-        hex_skeleton_array = read_segmented_image('images/hex_skeleton.tif')
+        hex_skeleton_array = read_segmented_image('tests/images/hex_skeleton.tif')
 
         self.assertIsNone(np.testing.assert_array_equal(skeleton_array, hex_skeleton_array))
 
