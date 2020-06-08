@@ -1,38 +1,5 @@
 import numpy as np
 
-def fill_recursively(array_of_pixels, position, old_value, new_value):
-    """recursive function to replace the value of a pixel and all surrounding pixels to a new value
-
-    :type array_of_pixels: np.ndarray
-    :param array_of_pixels: 2D numpy array of all pixel values
-    :param position: tuple with (row, col) location of pixel to modify
-    :type position: tuple
-    :type old_value: float
-    :param old_value: old value of pixel at `position`
-    :type new_value: float
-    :param new_value: new value for pixel at `position` and surrounding pixels
-    :return: None
-    """
-
-    # Base Case
-    row, col = position
-    if row < 0 or row >= np.shape(array_of_pixels)[0] or col < 0 or col >= np.shape(array_of_pixels)[1]:
-        # out of bounds on the array
-        return
-    elif array_of_pixels[row][col] != old_value or array_of_pixels[row][col] == new_value:
-        # pixel is in different region or has already been modified
-        # pixel value does not need to be modified
-        return
-    else:
-        # change pixel value
-        array_of_pixels[row][col] = new_value
-
-        # recurs for north, east, south, west
-        fill_recursively(array_of_pixels, (row + 1, col), old_value, new_value)
-        fill_recursively(array_of_pixels, (row - 1, col), old_value, new_value)
-        fill_recursively(array_of_pixels, (row, col + 1), old_value, new_value)
-        fill_recursively(array_of_pixels, (row, col - 1), old_value, new_value)
-
 
 def fill_region(array_of_pixels, position, new_value):
     """ fills a region of a 2D numpy array with the same value
@@ -45,9 +12,27 @@ def fill_region(array_of_pixels, position, new_value):
     :param new_value: new value for pixel at `position` and all pixels in same region
     :return: None
     """
-    row, col = position
-    old_value = array_of_pixels[row, col]
-    fill_recursively(array_of_pixels, position, old_value, new_value)
+
+    xsize, ysize = array_of_pixels.shape
+    old_value = array_of_pixels[position[0], position[1]]
+
+    stack = {(position[0], position[1])}
+    if new_value == old_value:
+        raise ValueError("Region is already filled")
+
+    while stack:
+        x, y = stack.pop()
+
+        if array_of_pixels[x, y] == old_value:
+            array_of_pixels[x, y] = new_value
+            if x > 0:
+                stack.add((x - 1, y))
+            if x < (xsize - 1):
+                stack.add((x + 1, y))
+            if y > 0:
+                stack.add((x, y - 1))
+            if y < (ysize - 1):
+                stack.add((x, y + 1))
 
 
 # constant value that the image array is padded with
