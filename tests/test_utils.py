@@ -1,5 +1,5 @@
 """
-    This file contains test cases for pycellfit.py file
+    This file contains test cases for pycellfit/utils.py file
 """
 
 import unittest

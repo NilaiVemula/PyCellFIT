@@ -17,7 +17,7 @@ def read_segmented_image(file_name, visualize=False):
 
     :param file_name: file name of a segmented image in .tif format
     :type file_name: str
-    :param visualize: if true, then image will be plotted using matplotlib
+    :param visualize: if true, then image will be plotted using matplotlib.pyplot
     :type visualize: bool
     :raises TypeError: only accepts tif/tiff files as input
     :return: array of pixel values
