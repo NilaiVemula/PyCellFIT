@@ -1,15 +1,22 @@
-import itertools
 import math
 
 
 class Cell:
-    id_iter = itertools.count()
 
-    def __init__(self):
-        self._label = next(Cell.id_iter)
+    def __init__(self, pixel_value):
+        """ constructor for a Cell object
 
-        # list of tuples
+        :param pixel_value: value of all of pixels that make up this Cell in the array
+        :type pixel_value: float
+        """
+        # identify each cell based on its pixel value
+        self._label = pixel_value
+
+        # list of tuples of points in cell boundary
         self._edge_point_list = []
+
+        # list of edges that make up the cell
+        self._edges = []
 
     def add_edge_point(self, edge_point):
         if edge_point not in self._edge_point_list:
@@ -26,6 +33,10 @@ class Cell:
 
     @property
     def label(self):
+        """ the label of a Cell is it's unique pixel value. It is assigned when the Cell object is created.
+
+        :return:
+        """
         return self._label
 
     @property
