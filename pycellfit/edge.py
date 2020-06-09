@@ -77,7 +77,7 @@ class Edge:
 
     @corresponding_tension_vector.setter
     def corresponding_tension_vector(self, tension_vector):
-        if isinstance(tension_vector, tension_vectors.TensionVector):
+        if isinstance(tension_vector, tension_vector.TensionVector):
             self._corresponding_tension_vector = tension_vector
         else:
             raise TypeError('corresponding_edge should be of type TensionVector. Instead, it was of type {}'.format(
