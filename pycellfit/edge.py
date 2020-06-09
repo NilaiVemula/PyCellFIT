@@ -1,6 +1,6 @@
 import itertools
 
-from . import junction, tension_vectors
+from . import junction
 
 
 class Edge:
