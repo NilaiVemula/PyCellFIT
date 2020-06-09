@@ -46,6 +46,7 @@ class TestUtils(unittest.TestCase):
         cell_membrane = [(0, 0), (0, 1), (1, 0), (1, 1), (1, 1)]
         for point in cell_membrane:
             cell_1.add_edge_point(point)
+        print(type(cell_1.edge_points_cw))
         self.assertEqual(cell_1.edge_points_cw, [(1, 1), (1, 0), (0, 0), (0, 1)])
 
     def test_approximate_center(self):
@@ -55,6 +56,19 @@ class TestUtils(unittest.TestCase):
         for point in cell_membrane:
             cell_0.add_edge_point(point)
         self.assertEqual(cell_0.approximate_cell_center(), (0.5, 0.5))
+
+    def test_eq(self):
+        cell_0 = Cell(0)
+        cell_1 = Cell(0)
+        s = {cell_0, cell_1}
+        self.assertEqual(len(s), 1)
+
+    def test_add_remove_cells(self):
+        s = set()
+        s.add(Cell(0))
+        self.assertEqual(len(s), 1)
+        s.remove(Cell(0))
+        self.assertEqual(len(s), 0)
 
 
 if __name__ == "__main__":

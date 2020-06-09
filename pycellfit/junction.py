@@ -6,7 +6,7 @@ class Junction:
 
     def __init__(self, coordinates):
         self._coordinates = coordinates
-        self._edges = []
+        self._edge_labels = set()
         self._label = next(Junction.id_iter)
 
     @property
@@ -31,38 +31,39 @@ class Junction:
 
     @property
     def edges(self):
-        """List of edges connected to this node"""
+        """set of labels of edges connected to this node"""
 
-        return self._edges
+        return self._edge_labels
 
-    def add_edge(self, edge):
-        """Adds edge to list of edges -- make sure no repeat edges"""
-        if edge not in self._edges:
-            self._edges.append(edge)
+    def add_edge(self, edge_label):
+        """Adds edge label to set of edge labels"""
+        self._edge_labels.add(edge_label)
 
-    def remove_edge(self, edge):
+    def remove_edge(self, edge_label):
         """Remove an edge and tension vector connected to this node
-        :param edge:
+
+        :param self:
+        :param edge_label:
         """
 
         try:
-            self._edges.remove(edge)
+            self._edge_labels.remove(edge_label)
         except ValueError:
-            raise ValueError("{} is not connected to this Junction".format(edge))
+            raise ValueError("{} is not connected to this Junction".format(edge_label))
 
     @property
     def tension_vectors(self):
         """ returns list of Tension vectors connected to this node"""
 
         tension_vectors = []
-        for edge in self._edges:
+        for edge in self._edge_labels:
             tension_vectors.append(edge.corresponding_tension_vector)
 
         return tension_vectors
 
     @property
     def degree(self):
-        return len(self._edges)
+        return len(self._edge_labels)
 
     def __eq__(self, other):
         return self._coordinates == other.coordinates

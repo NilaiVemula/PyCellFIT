@@ -12,15 +12,11 @@ class Cell:
         # identify each cell based on its pixel value
         self._label = pixel_value
 
-        # list of tuples of points in cell boundary
-        self._edge_point_list = []
-
-        # list of edges that make up the cell
-        self._edges = []
+        # set of tuples of points in cell boundary
+        self._edge_point_set = set()
 
     def add_edge_point(self, edge_point):
-        if edge_point not in self._edge_point_list:
-            self._edge_point_list.append(edge_point)
+        self._edge_point_set.add(edge_point)
 
     @property
     def number_of_edge_points(self):
@@ -29,7 +25,7 @@ class Cell:
         :return: number of edge points
         """
 
-        return len(self._edge_point_list)
+        return len(self._edge_point_set)
 
     @property
     def label(self):
@@ -47,7 +43,7 @@ class Cell:
         :rtype: list
         """
 
-        return sorted(self._edge_point_list, key=self.clockwiseangle_and_distance)
+        return sorted(self._edge_point_set, key=self.clockwiseangle_and_distance)
 
     def approximate_cell_center(self):
         """ approximates the coordinates of the center of the cell by averaging the coordinates of points on the
@@ -59,11 +55,11 @@ class Cell:
 
         xsum = 0
         ysum = 0
-        for point in self._edge_point_list:
+        for point in self._edge_point_set:
             xsum += point[0]
             ysum += point[1]
-        xc = xsum / len(self._edge_point_list)
-        yc = xsum / len(self._edge_point_list)
+        xc = xsum / len(self._edge_point_set)
+        yc = xsum / len(self._edge_point_set)
         return xc, yc
 
     def clockwiseangle_and_distance(self, point):
@@ -81,6 +77,10 @@ class Cell:
 
         # refvec is the order that we want to sort in
         refvec = [0, 1]  # [0,1] means clockwise
+
+        # can't find center of cell with no edge points
+        if self.number_of_edge_points == 0:
+            raise ZeroDivisionError("There are no edge points in this cell")
 
         # Vector between point and the origin: v = p - o
         vector = [point[0] - origin[0], point[1] - origin[1]]
@@ -109,8 +109,7 @@ class Cell:
         return repr('Cell {}'.format(self._label))
 
     def __eq__(self, other):
-        return math.isclose(self.approximate_cell_center()[0], other.approximate_cell_center()[0]) and math.isclose(
-            self.approximate_cell_center()[1], other.approximate_cell_center()[1])
+        return math.isclose(self.label, other.label)
 
     def __hash__(self):
         return hash(str(self))

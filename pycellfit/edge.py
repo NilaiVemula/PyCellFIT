@@ -14,7 +14,7 @@ class Edge:
         self._intermediate_points = []
         self._mesh_points = []
         self._junctions = [start_node, end_node]
-        self._cells = []
+        self._cell_labels = set()
         self._label = next(Edge.id_iter)
         self._corresponding_tension_vector = None
 

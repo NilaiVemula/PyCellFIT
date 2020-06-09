@@ -1,16 +1,17 @@
+from . import cell
+
+
 class Mesh:
     def __init__(self):
-        self._cells = []
-        self._edges = []
-        self._junctions = []
+        self._cells = set()
+        self._edges = set()
+        self._junctions = set()
 
-    def add_cell(self, cell):
-        if cell not in self._cells:
-            self._cells.append(cell)
+    def add_cell(self, cell_pixel_value):
+        self._cells.add(cell.Cell(cell_pixel_value))
 
-    def remove_cell(self, cell):
-        if cell in self._cells:
-            self._cells.remove(cell)
+    def remove_cell(self, cell_pixel_value):
+        self._cells.remove(cell.Cell(cell_pixel_value))
 
     @property
     def number_of_cells(self):
