@@ -19,6 +19,7 @@ class Cell:
 
     def sort_edge_points_ccw(self):
         self.remove_duplicate_edge_points()
+        # TODO: add sorting algorithm
 
     def __str__(self):
         return str('Cell {}'.format(self._label))

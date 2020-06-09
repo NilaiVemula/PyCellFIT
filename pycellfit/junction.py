@@ -7,7 +7,6 @@ class Junction:
     def __init__(self, coordinates):
         self._coordinates = coordinates
         self._edges = []
-        self._tension_vectors = []
         self._label = next(Junction.id_iter)
 
     @property
@@ -24,11 +23,11 @@ class Junction:
 
     @property
     def x(self):
-        return self.coordinates[0]
+        return self._coordinates[0]
 
     @property
     def y(self):
-        return self.coordinates[1]
+        return self._coordinates[1]
 
     @property
     def edges(self):
@@ -46,32 +45,33 @@ class Junction:
         :param edge:
         """
 
-        ind = self._edges.index(edge)
-        self._edges.pop(ind)
-        self._tension_vectors.pop(ind)
+        try:
+            self._edges.remove(edge)
+        except ValueError:
+            raise ValueError("{} is not connected to this Junction".format(edge))
 
     @property
     def tension_vectors(self):
-        """ Tension vectors connected to this node"""
-        return self._tension_vectors
+        """ returns list of Tension vectors connected to this node"""
 
-    def add_tension_vectors(self, vector):
-        """ add tension to tension_vectors, make sure no repeat tension_vectors """
-        if vector not in self._tension_vectors:
-            self._tension_vectors.append(vector)
+        tension_vectors = []
+        for edge in self._edges:
+            tension_vectors.append(edge.corresponding_tension_vector)
+
+        return tension_vectors
 
     @property
     def degree(self):
         return len(self._edges)
 
     def __eq__(self, other):
-        return self.coordinates == other.coordinates
+        return self._coordinates == other.coordinates
 
     def __str__(self):
-        return str(self.coordinates)
+        return str(self._coordinates)
 
     def __hash__(self):
         return hash(str(self))
 
     def __repr__(self):
-        return repr('Junction({})'.format(self.coordinates))
+        return repr('Junction({})'.format(self._coordinates))

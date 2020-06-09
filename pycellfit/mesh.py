@@ -3,6 +3,7 @@ class Mesh:
         self._cells = []
         self._edges = []
         self._junctions = []
+        self._tension_vectors = []
 
     def add_cell(self, cell):
         if cell not in self._cells:

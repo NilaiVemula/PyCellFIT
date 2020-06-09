@@ -1,6 +1,6 @@
 import itertools
 
-from . import junction
+from . import junction, tension_vectors
 
 
 class Edge:
@@ -16,6 +16,7 @@ class Edge:
         self._junctions = [start_node, end_node]
         self._cells = []
         self._label = next(Edge.id_iter)
+        self._corresponding_tension_vector = None
 
     @property
     def start_node(self):
@@ -69,6 +70,18 @@ class Edge:
     @property
     def yc(self):
         return self._center[1]
+
+    @property
+    def corresponding_tension_vector(self):
+        return self._corresponding_tension_vector
+
+    @corresponding_tension_vector.setter
+    def corresponding_tension_vector(self, tension_vector):
+        if isinstance(tension_vector, tension_vectors.TensionVector):
+            self._corresponding_tension_vector = tension_vector
+        else:
+            raise TypeError('corresponding_edge should be of type TensionVector. Instead, it was of type {}'.format(
+                type(tension_vector)))
 
     def __eq__(self, other):
         return self._start_node == other.start_node and self._end_node == other.end_node and self._center == \
