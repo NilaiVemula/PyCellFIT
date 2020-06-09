@@ -1,5 +1,5 @@
 pycellfit package
-=============
+=================
 
 Submodules
 ----------
@@ -13,7 +13,7 @@ pycellfit.utils module
    :show-inheritance:
 
 pycellfit.junction module
------------------------
+-------------------------
 
 .. automodule:: pycellfit.junction
    :members:
@@ -21,15 +21,23 @@ pycellfit.junction module
    :show-inheritance:
 
 pycellfit.edge module
------------------------
+----------------------
 
 .. automodule:: pycellfit.edge
    :members:
    :undoc-members:
    :show-inheritance:
 
+pycellfit.tension_vector module
+-------------------------------
+
+.. automodule:: pycellfit.tension_vector
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 pycellfit.cell module
------------------------
+----------------------
 
 .. automodule:: pycellfit.cell
    :members:
@@ -37,7 +45,7 @@ pycellfit.cell module
    :show-inheritance:
 
 pycellfit.mesh module
------------------------
+----------------------
 
 .. automodule:: pycellfit.mesh
    :members:
@@ -45,7 +53,7 @@ pycellfit.mesh module
    :show-inheritance:
 
 pycellfit.constrained_circle_fit module
------------------------
+---------------------------------------
 
 .. automodule:: pycellfit.constrained_circle_fit
    :members:
@@ -53,7 +61,7 @@ pycellfit.constrained_circle_fit module
    :show-inheritance:
 
 pycellfit.circle_fit_helpers module
------------------------
+-----------------------------------
 
 .. automodule:: pycellfit.circle_fit_helpers
    :members:
@@ -61,7 +69,7 @@ pycellfit.circle_fit_helpers module
    :show-inheritance:
 
 pycellfit.segmentation_transform module
------------------------
+---------------------------------------
 
 .. automodule:: pycellfit.segmentation_transform
    :members:
@@ -69,7 +77,7 @@ pycellfit.segmentation_transform module
    :show-inheritance:
 
 pycellfit.segmentation_transform_utils module
------------------------
+---------------------------------------------
 
 .. automodule:: pycellfit.segmentation_transform_utils
    :members:
