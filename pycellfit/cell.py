@@ -1,5 +1,8 @@
 import math
 
+import matplotlib.pyplot as plt
+from shapely.geometry import Polygon
+
 
 class Cell:
 
@@ -14,6 +17,9 @@ class Cell:
 
         # set of tuples of points in cell boundary
         self._edge_point_set = set()
+
+        self._shapely_object = None
+        self._cell_boundary_segments = []
 
     def add_edge_point(self, edge_point):
         self._edge_point_set.add(edge_point)
@@ -59,7 +65,7 @@ class Cell:
             xsum += point[0]
             ysum += point[1]
         xc = xsum / len(self._edge_point_set)
-        yc = xsum / len(self._edge_point_set)
+        yc = ysum / len(self._edge_point_set)
         return xc, yc
 
     def clockwiseangle_and_distance(self, point):
@@ -101,6 +107,17 @@ class Cell:
         # I return first the angle because that's the primary sorting criterium
         # but if two vectors have the same angle then the shorter distance should come first.
         return angle, lenvector
+
+    def plot(self):
+        plt.scatter(*zip(*self._edge_point_set))
+
+    def create_shapely_object(self):
+        exterior = self.edge_points_cw
+        first_point = exterior[0]
+        exterior.append(first_point)
+        object = Polygon(exterior)
+        self._shapely_object = object
+        return object
 
     def __str__(self):
         return str('Cell {}'.format(self._label))

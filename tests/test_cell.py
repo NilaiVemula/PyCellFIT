@@ -70,6 +70,16 @@ class TestUtils(unittest.TestCase):
         s.remove(Cell(0))
         self.assertEqual(len(s), 0)
 
+    def test_add_edge_point_to_cell_in_set(self):
+        s = set()
+        s.add(Cell(0))
+        for cell in s:
+            if cell.label == 0:
+                cell.add_edge_point((0, 1))
+
+        for cell in s:
+            if cell.label == 0:
+                self.assertEqual(cell.number_of_edge_points, 1)
 
 if __name__ == "__main__":
     unittest.main()
