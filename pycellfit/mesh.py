@@ -16,8 +16,8 @@ class Mesh:
     def remove_cell(self, cell_pixel_value):
         self.cells.discard(cell.Cell(cell_pixel_value))
 
-    def add_junction(self, coordinates, degree):
-        self.junctions.add(junction.Junction(coordinates, degree))
+    def add_junction(self, coordinates, degree, neighboring_cell_set):
+        self.junctions.add(junction.Junction(coordinates, degree, neighboring_cell_set))
 
     def sorted_junctions_list(self):
         return sorted(self.junctions, key=self.sort_junction)

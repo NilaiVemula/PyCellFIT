@@ -13,7 +13,7 @@ def main():
     fig, ax = plt.subplots()
     # load input image as a numpy ndarray
     array_of_pixels = read_segmented_image(filename, visualize=True)
-
+    dimensions = np.shape(array_of_pixels)
     # print(img_array)
 
     # find all unique pixel values in array
@@ -39,65 +39,66 @@ def main():
     with np.nditer(array_of_pixels, flags=['multi_index']) as iterator:
         for pixel in iterator:
 
-            # find pixels that are on the boundaries of a cell
             # find location of this pixel and the surrounding pixels
             position = iterator.multi_index
             north = tuple(map(lambda i, j: i + j, position, (-1, 0)))
+            west = tuple(map(lambda i, j: i + j, position, (0, -1)))
             south = tuple(map(lambda i, j: i + j, position, (1, 0)))
             east = tuple(map(lambda i, j: i + j, position, (0, 1)))
-            west = tuple(map(lambda i, j: i + j, position, (0, -1)))
-
-            # find values of these five pixels
-            try:
-
-                north_value, east_value, west_value, south_value = (array_of_pixels[north],
-                                                                    array_of_pixels[east], array_of_pixels[west],
-                                                                    array_of_pixels[south])
-                neighboring_values = {array_of_pixels[north], array_of_pixels[east], array_of_pixels[west],
-                                      array_of_pixels[south]}
-            except IndexError:
-                pass
-            y, x = position
-            y += 0.5
-            x += 0.5
-            if north_value != pixel:
-                y -= 0.5
-            if south_value != pixel:
-                y += 0.5
-            if east_value != pixel:
-                x += 0.5
-            if west_value != pixel:
-                x -= 0.5
-            # neighboring_values.discard(background_value)
-
-            if len(neighboring_values) >= 2:
-                for cell in hex_mesh.cells:
-                    if cell.label == pixel:
-                        cell.add_edge_point((x, y))
-
-            # find pixels that are triple junctions
             southeast = tuple(map(lambda i, j: i + j, position, (1, 1)))
 
+            # find triple junctions
             try:
-                neighboring_values = {array_of_pixels[position], array_of_pixels[south], array_of_pixels[southeast],
-                                      array_of_pixels[east]}
+                neighboring_values = {array_of_pixels[east],
+                                      array_of_pixels[south],
+                                      array_of_pixels[southeast],
+                                      array_of_pixels[position]}
             except IndexError:
                 pass
-            y, x = position
-            y += 1
-            x += 1
             if len(neighboring_values) == 3:
-                hex_mesh.add_junction((x, y), 3)
+                x = position[1] + 1
+                y = position[0] + 1
+                hex_mesh.add_junction((x, y), 3, neighboring_values)
+            # find edge points
+            try:
+                if array_of_pixels[position] != array_of_pixels[east]:
+                    for cell in hex_mesh.cells:
+                        if cell.label == pixel:
+                            cell.add_edge_point((position[1] + 1, position[0]))
+                            cell.add_edge_point((position[1] + 1, position[0] + 1))
+            except IndexError:
+                pass
+            try:
+                if array_of_pixels[position] != array_of_pixels[south]:
+                    for cell in hex_mesh.cells:
+                        if cell.label == pixel:
+                            cell.add_edge_point((position[1] + 1, position[0] + 1))
+                            cell.add_edge_point((position[1], position[0] + 1))
+            except IndexError:
+                pass
+            try:
+                if array_of_pixels[position] != array_of_pixels[north]:
+                    for cell in hex_mesh.cells:
+                        if cell.label == pixel:
+                            cell.add_edge_point((position[1] + 1, position[0]))
+                            cell.add_edge_point((position[1] + 1, position[0]))
+            except IndexError:
+                pass
+            try:
+                if array_of_pixels[position] != array_of_pixels[west]:
+                    for cell in hex_mesh.cells:
+                        if cell.label == pixel:
+                            cell.add_edge_point((position[1], position[0]))
+                            cell.add_edge_point((position[1], position[0] + 1))
+            except IndexError:
+                pass
 
     print('number of triple junctions:')
     print(hex_mesh.number_of_triple_junctions)
     for junction in hex_mesh.junctions:
         junction.plot()
-    # plt.show()
-    sorted_list = hex_mesh.sorted_junctions_list()
-    print(sorted_list)
 
-    # plt.show()
+    plt.show()
     for cell in hex_mesh.cells:
         shapely = cell.create_shapely_object()
         # plt.plot(*zip(*sorted_points))
