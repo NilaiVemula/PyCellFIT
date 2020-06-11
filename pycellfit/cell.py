@@ -56,15 +56,16 @@ class Cell:
     def make_edges(self):
         # number of edges = number of junctions
         count = len(self.junction_points_cw)
+        l = self.junction_points_cw
+        l.append(self.junction_points_cw[0])
         maze, xmin, ymin = self.generate_maze()
-        for index, junction in enumerate(self.junction_points_cw):
-            if index < (count - 1):
-                print(junction, self.junction_points_cw[index + 1])
+        for index, junction in enumerate(l):
+            if index < (count):
 
                 x1, y1 = junction
                 point1 = (int(y1 - ymin), int(x1 - xmin))
 
-                x2, y2 = self.junction_points_cw[index + 1]
+                x2, y2 = l[index + 1]
                 point2 = (int(y2 - ymin), int(x2 - xmin))
                 path = breadth_first_search(maze, point1, point2)
 
@@ -75,17 +76,6 @@ class Cell:
 
                 self._cell_boundary_segments.append(path_new)
 
-        x1, y1 = self.junction_points_cw[-1]
-        point1 = (int(y1 - ymin), int(x1 - xmin))
-
-        x2, y2 = self.junction_points_cw[0]
-        point2 = (int(y2 - ymin), int(x2 - xmin))
-        path = breadth_first_search(maze, point1, point2)
-        path_new = []
-        for point in path:
-            y, x = tuple(map(lambda i, j: i + j, point, (ymin, xmin)))
-            path_new.append((x, y))
-        self._cell_boundary_segments.append(path_new)
 
     @property
     def junction_points_cw(self):

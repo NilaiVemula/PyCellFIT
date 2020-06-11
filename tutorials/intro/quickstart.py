@@ -126,11 +126,7 @@ def main():
 
     for junction in hex_mesh.junctions:
         junction.plot()
-    hex_mesh.separate_cell_edge_points_into_segments()
-    for cell in hex_mesh.cells:
-        for edge in cell._cell_boundary_segments:
-            x, y = edge.xy
-            # plt.plot(x, y)
+
     plt.xlim(215, 270)
     plt.ylim(365, 430)
 
@@ -144,6 +140,8 @@ def main():
     for cell in hex_mesh.cells:
         if cell.label == 15:
             cell.make_edges()
+            for segment in cell._cell_boundary_segments:
+                plt.plot(*zip(*segment))
     plt.show()
 
 
