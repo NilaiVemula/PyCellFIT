@@ -22,32 +22,6 @@ class Node:
         return ('({0},{1})'.format(self.position, self.f))
 
 
-# Draw a grid
-def draw_grid(map, width, height, spacing=2, **kwargs):
-    for y in range(height):
-        for x in range(width):
-            print('%%-%ds' % spacing % draw_tile(map, (x, y), kwargs), end='')
-        print()
-
-
-# Draw a tile
-def draw_tile(map, position, kwargs):
-    # Get the map value
-    value = map.get(position)
-
-    # Check if we should print the path
-    if 'path' in kwargs and position in kwargs['path']: value = '+'
-
-    # Check if we should print start point
-    if 'start' in kwargs and position == kwargs['start']: value = '@'
-
-    # Check if we should print the goal point
-    if 'goal' in kwargs and position == kwargs['goal']: value = '$'
-
-    # Return a tile value
-    return value
-
-
 # Breadth-first search (BFS)
 def breadth_first_search(map, start, end):
     # Create lists for open nodes and closed nodes
@@ -124,22 +98,3 @@ def breadth_first_search(map, start, end):
     # Return None, no path is found
     return None
 
-
-# The main entry point for this module
-def main():
-    # Get a map (grid)
-    map = {}
-    chars = ['c']
-    start = None
-    end = None
-    width = 0
-    height = 0
-
-    path = breadth_first_search(map, start, end)
-    print()
-    print(path)
-    print()
-    draw_grid(map, width, height, spacing=1, path=path, start=start, goal=end)
-    print()
-    print('Steps to goal: {0}'.format(len(path)))
-    print()

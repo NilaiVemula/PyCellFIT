@@ -1,8 +1,6 @@
 import math
-from collections import deque
 
 import matplotlib.pyplot as plt
-from shapely.geometry import Polygon
 
 from .path_finder import breadth_first_search
 
@@ -54,54 +52,6 @@ class Cell:
 
         return arr, xmin, ymin
 
-    def find_path(self, point1, point2):
-        if not (point1 in self._edge_point_set and point2 in self._edge_point_set):
-            raise ValueError('junction is not on edge of cell')
-
-        maze, xmin, ymin = self.generate_maze()
-        x1, y1 = point1
-        point1 = (int(y1 - ymin), int(x1 - xmin))
-
-        x2, y2 = point2
-        point2 = (int(y2 - ymin), int(x2 - xmin))
-
-        visited = []
-        path = []
-        visited.append(point1)
-        path.append(point1)
-
-        q = deque()
-
-        q.append(point1)
-        while q:
-            curr = q.popleft()
-            if curr == point2:
-                print(path)
-                return q
-            else:
-                row, col = curr
-                neighbors = []
-                if row > 0:
-                    north = (row - 1, col)
-                    if north not in visited:
-                        neighbors.append(north)
-                if col < len(maze[0]) - 1:
-                    east = (row, col + 1)
-                    if east not in visited:
-                        neighbors.append(east)
-                if row < len(maze) - 1:
-                    south = (row + 1, col)
-                    if south not in visited:
-                        neighbors.append(south)
-                if col > 0:
-                    west = (row, col - 1)
-                    if west not in visited:
-                        neighbors.append(west)
-                for neighbor in neighbors:
-                    if maze[neighbor[0]][neighbor[1]] == 1:
-                        path.append(curr)
-                        visited.append(neighbor)
-                        q.append(neighbor)
 
     def make_edges(self):
         # number of edges = number of junctions
@@ -221,20 +171,13 @@ class Cell:
         # from 2*pi (360 degrees)
         if angle < 0:
             return 2 * math.pi + angle, lenvector
-        # I return first the angle because that's the primary sorting criterium
+        # I return first the angle because that's the primary sorting criterion
         # but if two vectors have the same angle then the shorter distance should come first.
         return angle, lenvector
 
     def plot(self):
         plt.scatter(*zip(*self._edge_point_set))
 
-    def create_shapely_object(self):
-        exterior = self.edge_points_cw
-        first_point = exterior[0]
-        exterior.append(first_point)
-        object = Polygon(exterior)
-        self._shapely_object = object
-        return object
 
     def __str__(self):
         return str('Cell {}'.format(self._label))
