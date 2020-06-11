@@ -1,7 +1,10 @@
 import math
+from collections import deque
 
 import matplotlib.pyplot as plt
 from shapely.geometry import Polygon
+
+from .path_finder import breadth_first_search
 
 
 class Cell:
@@ -20,9 +23,123 @@ class Cell:
 
         self._shapely_object = None
         self._cell_boundary_segments = []
+        self._junction_points = set()
 
     def add_edge_point(self, edge_point):
         self._edge_point_set.add(edge_point)
+
+    def add_junction_point(self, junction_point):
+        self._junction_points.add(junction_point)
+
+    def generate_maze(self):
+        xmin = 512
+        ymin = 512
+        xmax = 0
+        ymax = 0
+        for x, y in self._edge_point_set:
+            if x > xmax:
+                xmax = x
+            if x < xmin:
+                xmin = x
+            if y > ymax:
+                ymax = y
+            if y < ymin:
+                ymin = y
+        rows, cols = (int(ymax - ymin + 1), int(xmax - xmin + 1))
+        arr = [[0 for i in range(cols)] for j in range(rows)]
+        for x, y in self._edge_point_set:
+            row = int(y - ymin)
+            col = int(x - xmin)
+            arr[row][col] = 1
+
+        return arr, xmin, ymin
+
+    def find_path(self, point1, point2):
+        if not (point1 in self._edge_point_set and point2 in self._edge_point_set):
+            raise ValueError('junction is not on edge of cell')
+
+        maze, xmin, ymin = self.generate_maze()
+        x1, y1 = point1
+        point1 = (int(y1 - ymin), int(x1 - xmin))
+
+        x2, y2 = point2
+        point2 = (int(y2 - ymin), int(x2 - xmin))
+
+        visited = []
+        path = []
+        visited.append(point1)
+        path.append(point1)
+
+        q = deque()
+
+        q.append(point1)
+        while q:
+            curr = q.popleft()
+            if curr == point2:
+                print(path)
+                return q
+            else:
+                row, col = curr
+                neighbors = []
+                if row > 0:
+                    north = (row - 1, col)
+                    if north not in visited:
+                        neighbors.append(north)
+                if col < len(maze[0]) - 1:
+                    east = (row, col + 1)
+                    if east not in visited:
+                        neighbors.append(east)
+                if row < len(maze) - 1:
+                    south = (row + 1, col)
+                    if south not in visited:
+                        neighbors.append(south)
+                if col > 0:
+                    west = (row, col - 1)
+                    if west not in visited:
+                        neighbors.append(west)
+                for neighbor in neighbors:
+                    if maze[neighbor[0]][neighbor[1]] == 1:
+                        path.append(curr)
+                        visited.append(neighbor)
+                        q.append(neighbor)
+
+    def make_edges(self):
+        # number of edges = number of junctions
+        count = len(self.junction_points_cw)
+        maze, xmin, ymin = self.generate_maze()
+        for index, junction in enumerate(self.junction_points_cw):
+            if index < (count - 1):
+                print(junction, self.junction_points_cw[index + 1])
+
+                x1, y1 = junction
+                point1 = (int(y1 - ymin), int(x1 - xmin))
+
+                x2, y2 = self.junction_points_cw[index + 1]
+                point2 = (int(y2 - ymin), int(x2 - xmin))
+                path = breadth_first_search(maze, point1, point2)
+
+                path_new = []
+                for point in path:
+                    y, x = tuple(map(lambda i, j: i + j, point, (ymin, xmin)))
+                    path_new.append((x, y))
+
+                self._cell_boundary_segments.append(path_new)
+
+        x1, y1 = self.junction_points_cw[-1]
+        point1 = (int(y1 - ymin), int(x1 - xmin))
+
+        x2, y2 = self.junction_points_cw[0]
+        point2 = (int(y2 - ymin), int(x2 - xmin))
+        path = breadth_first_search(maze, point1, point2)
+        path_new = []
+        for point in path:
+            y, x = tuple(map(lambda i, j: i + j, point, (ymin, xmin)))
+            path_new.append((x, y))
+        self._cell_boundary_segments.append(path_new)
+
+    @property
+    def junction_points_cw(self):
+        return sorted(self._junction_points, key=self.clockwiseangle_and_distance)
 
     @property
     def number_of_edge_points(self):
@@ -82,7 +199,7 @@ class Cell:
         origin = self.approximate_cell_center()
 
         # refvec is the order that we want to sort in
-        refvec = [0, 1]  # [0,1] means clockwise
+        refvec = [1, 0]  # [0,1] means clockwise
 
         # can't find center of cell with no edge points
         if self.number_of_edge_points == 0:

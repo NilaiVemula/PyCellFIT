@@ -25,6 +25,13 @@ class Mesh:
     def sort_junction(self, junction):
         return junction.x
 
+    def map_junctions_to_cells(self):
+        for junction in self.junctions:
+            cell_labels = junction._cell_labels
+            for cell in self.cells:
+                if cell.label in cell_labels:
+                    cell.add_junction_point((junction.x, junction.y))
+
     @property
     def number_of_cells(self):
         """ returns the number of cells in the mesh

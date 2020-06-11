@@ -56,40 +56,40 @@ def main():
             except IndexError:
                 pass
             if len(neighboring_values) == 3:
-                x = position[1] + 1
-                y = position[0] + 1
+                x = position[1] + 1 - 0.5
+                y = position[0] + 1 - 0.5
                 hex_mesh.add_junction((x, y), 3, neighboring_values)
             # find edge points
             try:
                 if array_of_pixels[position] != array_of_pixels[east]:
                     for cell in hex_mesh.cells:
                         if cell.label == pixel:
-                            cell.add_edge_point((position[1] + 1, position[0]))
-                            cell.add_edge_point((position[1] + 1, position[0] + 1))
+                            cell.add_edge_point((position[1] + 1 - 0.5, position[0] - 0.5))
+                            cell.add_edge_point((position[1] + 1 - 0.5, position[0] + 1 - 0.5))
             except IndexError:
                 pass
             try:
                 if array_of_pixels[position] != array_of_pixels[south]:
                     for cell in hex_mesh.cells:
                         if cell.label == pixel:
-                            cell.add_edge_point((position[1] + 1, position[0] + 1))
-                            cell.add_edge_point((position[1], position[0] + 1))
+                            cell.add_edge_point((position[1] + 1 - 0.5, position[0] + 1 - 0.5))
+                            cell.add_edge_point((position[1] - 0.5, position[0] + 1 - 0.5))
             except IndexError:
                 pass
             try:
                 if array_of_pixels[position] != array_of_pixels[north]:
                     for cell in hex_mesh.cells:
                         if cell.label == pixel:
-                            cell.add_edge_point((position[1] + 1, position[0]))
-                            cell.add_edge_point((position[1] + 1, position[0]))
+                            cell.add_edge_point((position[1] + 1 - 0.5, position[0] - 0.5))
+                            cell.add_edge_point((position[1] + 1 - 0.5, position[0] - 0.5))
             except IndexError:
                 pass
             try:
                 if array_of_pixels[position] != array_of_pixels[west]:
                     for cell in hex_mesh.cells:
                         if cell.label == pixel:
-                            cell.add_edge_point((position[1], position[0]))
-                            cell.add_edge_point((position[1], position[0] + 1))
+                            cell.add_edge_point((position[1] - 0.5, position[0] - 0.5))
+                            cell.add_edge_point((position[1] - 0.5, position[0] + 1 - 0.5))
             except IndexError:
                 pass
 
@@ -99,37 +99,53 @@ def main():
         junction.plot()
 
     plt.show()
+
+    fig, ax = plt.subplots()
     for cell in hex_mesh.cells:
-        shapely = cell.create_shapely_object()
-        # plt.plot(*zip(*sorted_points))
-        # plt.show()
-        x, y = shapely.exterior.xy
-        plt.plot(x, y, c='b')
+        if cell.label == 15:
+            plt.scatter(cell.approximate_cell_center()[0], cell.approximate_cell_center()[1])
+            sorted_points = cell.edge_points_cw
+            plt.scatter(*zip(*sorted_points))
+            plt.scatter(sorted_points[0][0], sorted_points[0][1], c='r')
+            plt.scatter(sorted_points[-1][0], sorted_points[-1][1], c='g')
+            # shapely = cell.create_shapely_object()
+
+            # x, y = shapely.exterior.xy
+            # plt.plot(x, y, c='b')
     plt.xlim(215, 270)
     plt.ylim(365, 430)
 
     ax.set_xticks(np.arange(215, 270, 1), minor=True)
     ax.set_yticks(np.arange(365, 430, 1), minor=True)
-    plt.grid(which='both', alpha=0.2)
+    plt.grid(which='both')
     plt.show()
 
+    # plot the image
     fig, ax = plt.subplots()
     plt.imshow(array_of_pixels, cmap='gray', interpolation="nearest")
+
     for junction in hex_mesh.junctions:
         junction.plot()
     hex_mesh.separate_cell_edge_points_into_segments()
     for cell in hex_mesh.cells:
-        print(cell.label, len(cell._cell_boundary_segments))
         for edge in cell._cell_boundary_segments:
             x, y = edge.xy
-            plt.plot(x, y)
+            # plt.plot(x, y)
     plt.xlim(215, 270)
     plt.ylim(365, 430)
 
     ax.set_xticks(np.arange(215, 270, 1), minor=True)
     ax.set_yticks(np.arange(365, 430, 1), minor=True)
     plt.grid(which='both', alpha=0.2)
+    # plt.show()
+
+    hex_mesh.map_junctions_to_cells()
+
+    for cell in hex_mesh.cells:
+        if cell.label == 15:
+            cell.make_edges()
     plt.show()
+
 
 
 if __name__ == '__main__':
