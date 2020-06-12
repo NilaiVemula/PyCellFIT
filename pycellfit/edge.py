@@ -6,15 +6,15 @@ from . import junction
 class Edge:
     id_iter = itertools.count()
 
-    def __init__(self, start_node, end_node, radius, center):
+    def __init__(self, start_node, end_node, intermediate_points, cells):
         self._start_node = start_node
         self._end_node = end_node
-        self._radius = radius
-        self._center = center
-        self._intermediate_points = []
+        self._radius = 0
+        self._center = (0, 0)
+        self._intermediate_points = intermediate_points
         self._mesh_points = []
-        self._junctions = [start_node, end_node]
-        self._cell_labels = set()
+        self._junctions = {start_node, end_node}
+        self._cells = cells
         self._label = next(Edge.id_iter)
         self._corresponding_tension_vector = None
 
@@ -84,8 +84,7 @@ class Edge:
                 type(tension_vector)))
 
     def __eq__(self, other):
-        return self._start_node == other.start_node and self._end_node == other.end_node and self._center == \
-               other.center
+        return self._junctions == {other.start_node, other.end_node}
 
     def __str__(self):
         return str(self._start_node) + ' to ' + str(self._end_node)

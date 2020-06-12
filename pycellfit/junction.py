@@ -6,9 +6,8 @@ import matplotlib.pyplot as plt
 class Junction:
     id_iter = itertools.count()
 
-    def __init__(self, coordinates, degree, cells_set):
+    def __init__(self, coordinates, cells_set):
         self._coordinates = coordinates
-        self._degree = degree
         self._edge_labels = set()
         self._label = next(Junction.id_iter)
         self._cell_labels = cells_set
@@ -67,10 +66,14 @@ class Junction:
 
     @property
     def degree(self):
-        return self._degree
+        return len(self._cell_labels)
 
     def plot(self):
         plt.scatter(self.x, self.y, c='r')
+
+    @property
+    def cell_labels(self):
+        return self._cell_labels
 
     def __eq__(self, other):
         return self._coordinates == other.coordinates

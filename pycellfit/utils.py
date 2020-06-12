@@ -32,7 +32,7 @@ def read_segmented_image(file_name, visualize=False):
     img_array = np.array(im)
 
     if visualize:
-        plt.imshow(img_array, cmap='gray', interpolation="nearest")
+        plt.imshow(img_array, cmap='gray', interpolation="nearest", vmax=255)
 
     return img_array
 

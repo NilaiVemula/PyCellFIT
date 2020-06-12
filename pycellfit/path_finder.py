@@ -23,7 +23,7 @@ class Node:
 
 
 # Breadth-first search (BFS)
-def breadth_first_search(map, start, end):
+def breadth_first_search(maze, start, end):
     # Create lists for open nodes and closed nodes
     open = []
     closed = []
@@ -55,44 +55,42 @@ def breadth_first_search(map, start, end):
             return path[::-1]
 
         # Unzip the current node position
-        (x, y) = current_node.position
-        row, col = (x, y)
+        row, col = current_node.position
+
+        # find position of all the neighbors
         neighbors = []
         if row > 0:
             north = (row - 1, col)
             neighbors.append(north)
-        if col < len(map[0]) - 1:
+        if col < len(maze[0]) - 1:
             east = (row, col + 1)
             neighbors.append(east)
-        if row < len(map) - 1:
+        if row < len(maze) - 1:
             south = (row + 1, col)
             neighbors.append(south)
         if col > 0:
             west = (row, col - 1)
             neighbors.append(west)
 
-        # Get neighbors
-        # neighbors = [(x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)]
-
         # Loop neighbors
-        for next in neighbors:
+        for neighbor in neighbors:
 
             # Get value from map
-            map_value = map[next[0]][next[1]]
+            map_value = maze[neighbor[0]][neighbor[1]]
 
             # Check if the node is a wall
-            if (map_value == 0):
+            if map_value == 0:
                 continue
 
             # Create a neighbor node
-            neighbor = Node(next, current_node)
+            neighbor = Node(neighbor, current_node)
 
             # Check if the neighbor is in the closed list
-            if (neighbor in closed):
+            if neighbor in closed:
                 continue
 
             # Everything is green, add the node if it not is in open
-            if (neighbor not in open):
+            if neighbor not in open:
                 open.append(neighbor)
 
     # Return None, no path is found
