@@ -1,5 +1,7 @@
 import itertools
 
+import matplotlib.pyplot as plt
+
 from . import junction
 
 
@@ -14,7 +16,7 @@ class Edge:
         self._intermediate_points = intermediate_points
         self._mesh_points = []
         self._junctions = {start_node, end_node}
-        self._cells = cells
+        self._cell_label_set = cells
         self._label = next(Edge.id_iter)
         self._corresponding_tension_vector = None
 
@@ -82,6 +84,9 @@ class Edge:
         else:
             raise TypeError('corresponding_edge should be of type TensionVector. Instead, it was of type {}'.format(
                 type(tension_vector)))
+
+    def plot(self):
+        plt.plot(*zip(*self._intermediate_points))
 
     def __eq__(self, other):
         return self._junctions == {other.start_node, other.end_node}

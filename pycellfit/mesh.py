@@ -142,3 +142,7 @@ class Mesh:
                                 cell.add_edge_point((position[1] - 0.5, position[0] + 1 - 0.5), array_of_pixels[west])
                 except IndexError:
                     pass
+
+    def make_edges_for_all_cells(self):
+        for cell in self.cells:
+            cell.make_edges(self.edges)

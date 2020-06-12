@@ -3,6 +3,7 @@ from itertools import combinations
 
 import matplotlib.pyplot as plt
 
+from .edge import Edge
 from .path_finder import breadth_first_search
 
 
@@ -64,28 +65,38 @@ class Cell:
                 arr[row][col] = 1
         return arr, xmin, ymin
 
-    def make_edges(self):
+    def make_edges(self, master_set):
+
         for start, end in combinations(self.junctions, 2):
-            start_cells = start.cell_labels
-            end_cells = end.cell_labels
-            shared_cell_labels = start_cells.intersection(end_cells)
-            if len(shared_cell_labels) == 2:
-                (neighboring_cell_label,) = shared_cell_labels - {self.label}
-                maze, xmin, ymin = self.generate_maze(neighboring_cell_label)
-                x1, y1 = start.coordinates
-                point1 = (int(y1 - ymin), int(x1 - xmin))
+            already_created_edge = False
+            for edge in master_set:
+                if edge.start_node == start and edge.end_node == end:
+                    already_created_edge = True
+                if edge.start_node == end and edge.end_node == start:
+                    already_created_edge = True
+            if not already_created_edge:
+                start_cells = start.cell_labels
+                end_cells = end.cell_labels
+                shared_cell_labels = start_cells.intersection(end_cells)
+                if len(shared_cell_labels) == 2:
+                    (neighboring_cell_label,) = shared_cell_labels - {self.label}
+                    maze, xmin, ymin = self.generate_maze(neighboring_cell_label)
+                    x1, y1 = start.coordinates
+                    point1 = (int(y1 - ymin), int(x1 - xmin))
 
-                x2, y2 = end.coordinates
-                point2 = (int(y2 - ymin), int(x2 - xmin))
+                    x2, y2 = end.coordinates
+                    point2 = (int(y2 - ymin), int(x2 - xmin))
 
-                path = breadth_first_search(maze, point1, point2)
+                    path = breadth_first_search(maze, point1, point2)
 
-                path_new = []
-                for point in path:
-                    y, x = tuple(map(lambda i, j: i + j, point, (ymin, xmin)))
-                    path_new.append((x, y))
+                    path_new = []
+                    for point in path:
+                        y, x = tuple(map(lambda i, j: i + j, point, (ymin, xmin)))
+                        path_new.append((x, y))
 
-                self._cell_boundary_segments.append(path_new)
+                    self._cell_boundary_segments.append(path_new)
+                    e = Edge(start, end, path_new, {self.label, neighboring_cell_label})
+                    master_set.add(e)
 
     @property
     def number_of_edge_points(self):

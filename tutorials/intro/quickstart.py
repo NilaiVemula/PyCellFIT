@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import matplotlib.pyplot as plt
-import numpy as np
 
 from pycellfit.mesh import Mesh
 from pycellfit.utils import read_segmented_image
@@ -39,26 +38,17 @@ def main():
     for junction in hex_mesh.junctions:
         junction.plot()
 
-    plt.xlim(215, 275)
-    plt.ylim(370, 425)
-
-    ax.set_xticks(np.arange(215, 275, 1), minor=True)
-    ax.set_yticks(np.arange(370, 425, 1), minor=True)
-    plt.grid(which='both', alpha=0.2)
+    # plt.xlim(215, 275)
+    # plt.ylim(370, 425)
+    #
+    # ax.set_xticks(np.arange(215, 275, 1), minor=True)
+    # ax.set_yticks(np.arange(370, 425, 1), minor=True)
+    # plt.grid(which='both', alpha=0.2)
     # plt.show()
 
-    sum = 0
-    for cell in hex_mesh.cells:
-        cell.make_edges()
-        # print(cell.label)
-        # if cell.label == 5:
-        # print('showing')
-        sum += len(cell._cell_boundary_segments)
-        for segment in cell._cell_boundary_segments:
-            plt.plot(*zip(*segment))
-    # plt.show()
-    plt.savefig('res.png', dpi=1000)
-    print(sum)
+    hex_mesh.make_edges_for_all_cells()
+    print('number of edges')
+    print(hex_mesh.number_of_edges)
 
 
 if __name__ == '__main__':
