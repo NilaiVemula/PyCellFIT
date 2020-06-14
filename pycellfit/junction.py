@@ -68,8 +68,11 @@ class Junction:
     def degree(self):
         return len(self._cell_labels)
 
-    def plot(self):
-        plt.scatter(self.x, self.y, c='r')
+    def plot(self, label=False):
+        plt.scatter(self.x, self.y, c='r', s=10)
+        if label:
+            plt.text(self.coordinates[0], self.coordinates[1], str(self._label), color='black', fontsize=2.5,
+                     horizontalalignment='center', verticalalignment='center')
 
     @property
     def cell_labels(self):

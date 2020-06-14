@@ -22,7 +22,6 @@ class Cell:
         # each element looks like ((x, y), neighboring_cell_label)
         self._edge_point_set = set()
 
-        self._shapely_object = None
         self._cell_boundary_segments = []
         self.junctions = set()
 
@@ -125,7 +124,7 @@ class Cell:
 
         xsum = 0
         ysum = 0
-        for point in self._edge_point_set:
+        for point, neighbor in self._edge_point_set:
             xsum += point[0]
             ysum += point[1]
         xc = xsum / len(self._edge_point_set)
@@ -133,8 +132,9 @@ class Cell:
         return xc, yc
 
     def plot(self):
-        for (x, y), neighbor in self._edge_point_set:
-            plt.scatter(x, y)
+        plt.text(self.approximate_cell_center()[0], self.approximate_cell_center()[1], str(self._label), color='green',
+                 fontsize=3,
+                 horizontalalignment='center', verticalalignment='center')
 
     def __str__(self):
         return str('Cell {}'.format(self._label))

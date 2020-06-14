@@ -9,7 +9,6 @@ from pycellfit.utils import read_segmented_image
 def main():
     # STEP 1: Reading in segmented image
     filename = 'hex.tif'
-    fig, ax = plt.subplots()
     # load input image as a numpy ndarray
     array_of_pixels = read_segmented_image(filename)
 
@@ -31,12 +30,32 @@ def main():
     print(hex_mesh.number_of_edges)
 
     for edge in hex_mesh.edges:
-        print(edge.length, edge.location)
+        print(edge.length, edge.location, edge.outside)
 
     # STEP 3: Circle Fit
     # hex_mesh.circle_fit_all_edges()
     # for edge in hex_mesh.edges:
     #    print(edge.radius)
+
+    # STEP ??: Visualize
+    # show segmented image
+    plt.imshow(array_of_pixels, cmap='gray', interpolation="nearest", vmax=255)
+
+    # show junctions
+    for junction in hex_mesh.junctions:
+        junction.plot(label=True)
+
+    # show edges
+    for edge in hex_mesh.edges:
+        if not edge.outside:
+            edge.plot(label=True)
+
+    # show cells
+    for cell in hex_mesh.cells:
+        cell.plot()
+
+    plt.savefig('fig.png', dpi=1000)
+    # plt.show()
 
 
 if __name__ == '__main__':

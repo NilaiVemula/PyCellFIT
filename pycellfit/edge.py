@@ -28,6 +28,10 @@ class Edge:
         self._corresponding_tension_vector = None
 
     @property
+    def outside(self):
+        return 0 in self._cell_label_set
+
+    @property
     def start_node(self):
         return self._start_node
 
@@ -102,11 +106,16 @@ class Edge:
 
     @property
     def location(self):
-        x, y = list(zip(*self._intermediate_points))
-        return sum(x) / len(x), sum(y) / len(y)
+        return self._intermediate_points[int(len(self._intermediate_points) / 2)]
 
-    def plot(self):
-        plt.plot(*zip(*self._intermediate_points))
+    def plot(self, label=False):
+        x, y = list(zip(*self._intermediate_points))
+        x = list(x)
+        y = list(y)
+        plt.plot(x, y, color='deepskyblue', linestyle='-', linewidth=0.5)
+        if label:
+            plt.text(self.location[0], self.location[1], str(self._label), color='white', fontsize=3,
+                     horizontalalignment='center', verticalalignment='center')
 
     def circle_fit(self):
         x, y = list(zip(*self._intermediate_points))
