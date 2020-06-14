@@ -1,8 +1,15 @@
 import itertools
+import math
 
 import matplotlib.pyplot as plt
+import numpy as np
 
 from . import junction
+from .constrained_circle_fit import fit
+
+
+def distance(p1, p2):
+    return math.sqrt(((p1[0] - p2[0]) ** 2) + ((p1[1] - p2[1]) ** 2))
 
 
 class Edge:
@@ -85,8 +92,29 @@ class Edge:
             raise TypeError('corresponding_edge should be of type TensionVector. Instead, it was of type {}'.format(
                 type(tension_vector)))
 
+    @property
+    def length(self):
+        length = 0
+        for index, point in enumerate(self._intermediate_points):
+            if index < len(self._intermediate_points) - 1:
+                length += distance(point, self._intermediate_points[index + 1])
+        return length
+
+    @property
+    def location(self):
+        x, y = list(zip(*self._intermediate_points))
+        return sum(x) / len(x), sum(y) / len(y)
+
     def plot(self):
         plt.plot(*zip(*self._intermediate_points))
+
+    def circle_fit(self):
+        x, y = list(zip(*self._intermediate_points))
+        x = np.asarray(x)
+        y = np.asarray(y)
+        xc, yc, radius = fit(x, y, self.start_node.coordinates, self.end_node.coordinates)
+        self.center = (xc, yc)
+        self.radius = radius
 
     def __eq__(self, other):
         return self._junctions == {other.start_node, other.end_node}

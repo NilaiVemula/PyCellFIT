@@ -146,3 +146,7 @@ class Mesh:
     def make_edges_for_all_cells(self):
         for cell in self.cells:
             cell.make_edges(self.edges)
+
+    def circle_fit_all_edges(self):
+        for edge in self.edges:
+            edge.circle_fit()

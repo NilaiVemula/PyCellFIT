@@ -30,7 +30,13 @@ def main():
     print('number of edges')
     print(hex_mesh.number_of_edges)
 
+    for edge in hex_mesh.edges:
+        print(edge.length, edge.location)
+
     # STEP 3: Circle Fit
+    # hex_mesh.circle_fit_all_edges()
+    # for edge in hex_mesh.edges:
+    #    print(edge.radius)
 
 
 if __name__ == '__main__':
