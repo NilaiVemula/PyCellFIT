@@ -1,3 +1,7 @@
+import math
+import statistics
+
+import matplotlib.pyplot as plt
 import numpy as np
 from scipy import stats
 
@@ -11,6 +15,8 @@ class Mesh:
         self.edges = set()
         self.junctions = set()
         self.array_of_pixels = array_of_pixels
+        self.points = set()
+        self.background_label = 0
 
     def add_cell(self, cell_pixel_value):
         self.cells.add(Cell(cell_pixel_value))
@@ -30,7 +36,7 @@ class Mesh:
         # we determine the background value to be the mode of the potential values
         background_value = stats.mode(potential_background_values)[0][0]
         cell_ids.remove(background_value)
-
+        self.background_label = background_value
         for cell_id in cell_ids:
             self.add_cell(cell_id)
 
@@ -150,3 +156,23 @@ class Mesh:
     def circle_fit_all_edges(self):
         for edge in self.edges:
             edge.circle_fit()
+
+    def generate_mesh(self, average_nodes_per_edge=4):
+        edge_lengths = []
+        for edge in self.edges:
+            edge_lengths.append(edge.length)
+        distance_between_nodes = [edge_length / (average_nodes_per_edge - 1) for edge_length in edge_lengths]
+        # mean_edge_length = sum(edge_lengths)/len(edge_lengths)
+        # mean_edge_length = statistics.median(edge_lengths)
+        # length = mean_edge_length/(average_nodes_per_edge-1)
+        length = statistics.mean(distance_between_nodes)
+        print(length)
+        for edge in self.edges:
+            edge.split_line_multiple(n_pieces=math.ceil(edge.length / length))
+            edge.calculate_edge_points()
+            for point in edge._mesh_points:
+                self.points.add(point)
+
+    def plot(self):
+        for point in self.points:
+            plt.scatter(point[0], point[1], c='green', s=1)

@@ -258,6 +258,11 @@ def test2():
     start_point = (-1, 0)
     end_point = (0, 1)
 
+    x = np.array([196.5, 204.5, 211.5, 219.5])
+    y = np.array([370.5, 374.5, 379.5, 383.5])
+    start_point = (196.5, 370.5)
+    end_point = (219.5, 383.5)
+
     xc, yc, radius = fit(x, y, start_point, end_point)
     print("xc: " + str(xc))
     print("yc: " + str(yc))
