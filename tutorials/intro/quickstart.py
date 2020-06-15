@@ -54,7 +54,9 @@ def main():
     hex_mesh.plot()
     for edge in hex_mesh.edges:
         if not edge.outside(hex_mesh.background_label):
+            print(edge.start_tangent_angle, edge.end_tangent_angle)
             edge.plot_circle()
+            #edge.plot_tangent()
     plt.savefig('fig.png', dpi=1000)
     # plt.show()
 

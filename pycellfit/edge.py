@@ -269,6 +269,20 @@ class Edge:
                     return False
         return True
 
+    @property
+    def start_tangent_angle(self):
+        return math.atan((-self.start_node.x + self.xc) / (self.start_node.y - self.yc))
+
+    @property
+    def end_tangent_angle(self):
+        return math.atan((-self.end_node.x + self.xc) / (self.end_node.y - self.yc))
+
+    def plot_tangent(self):
+        angle = self.start_tangent_angle
+        plt.plot([self.start_node.x, self.start_node.x + 10 * math.cos(angle)], [self.start_node.y,
+                                                                                 self.start_node.y + 10 * math.sin(
+                                                                                     angle)], 'y-', lw=0.75)
+
     def plot_circle(self):
         xc, yc = self._center
         start_point = self.start_node.coordinates
@@ -289,7 +303,7 @@ class Edge:
             if mid_theta < 0:
                 mid_theta = 2 * math.pi + mid_theta
             theta_fit = np.linspace(start_theta, end_theta, 180)
-        # theta_fit = np.linspace(math.pi / 2 - 0.3, math.pi + 0.3, 180)
+
         # stores all x and y coordinates along the fitted arc
         x_fit = xc + self.radius * np.cos(theta_fit)
         y_fit = yc + self.radius * np.sin(theta_fit)
