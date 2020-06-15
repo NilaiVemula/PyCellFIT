@@ -45,7 +45,7 @@ def constraint1(center, point_a, point_p, x, y):
     r_ca = distance(point_a, center)
     r_cp = distance(point_p, center)
 
-    return R - r_cp + R - r_ca
+    return np.abs(R - r_cp) + np.abs(R - r_ca)
 
 
 def fit(x, y, start_point, end_point):
@@ -55,13 +55,15 @@ def fit(x, y, start_point, end_point):
     center_estimate = x_m, y_m
     # center, ier = optimize.leastsq(f, center_estimate, args=(x,y))
 
-    cons = [{'type': 'eq', 'fun': constraint1, 'args': (start_point, end_point, x, y)}, {'type': 'eq',
-                                                                                         'fun': constraint2,
-                                                                                         'args': (
-                                                                                         start_point, end_point)}]
-    # noinspection PyTypeChecker
-    center = optimize.minimize(fun=f, x0=center_estimate, args=(x, y), constraints=cons)
-    # print(center)
+    # cons = [{'type': 'eq', 'fun': constraint1, 'args': (start_point, end_point, x, y)}, {'type': 'eq',
+    #                                                                                      'fun': constraint2,
+    #                                                                                      'args': (
+    #                                                                                      start_point, end_point)}]
+    # # noinspection PyTypeChecker
+    # center = optimize.minimize(fun=f, x0=center_estimate, args=(x, y), constraints=cons)
+    center = optimize.minimize(fun=f, x0=center_estimate, args=(x, y))
+    if not center.success:
+        print(center)
     center = center.x
 
     xc, yc = center

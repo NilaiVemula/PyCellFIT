@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from . import junction
-from .new_circle_fit import fit
+from .new_new_circle_fit import fit
 
 
 def distance(p1, p2):
@@ -254,22 +254,12 @@ class Edge:
                      horizontalalignment='center', verticalalignment='center')
 
     def circle_fit(self):
-        if not self.linear():
-            x, y = list(zip(*self._mesh_points))
-            x = np.asarray(x)
-            y = np.asarray(y)
-            xc, yc, radius = fit(x, y, self.start_node.coordinates, self.end_node.coordinates)
-            self.center = (xc, yc)
-            self.radius = radius
-            if radius < 10:
-                print('wtf', x, y, self.start_node.coordinates, self.end_node.coordinates, xc, yc, radius)
-            if not math.isclose(distance(self.center, self.start_node.coordinates), distance(self.center,
-                                                                                             self.end_node.coordinates),
-                                abs_tol=0.25):
-                raise ValueError('circle fit failed :(')
-        else:
-            self.radius = 10000000000000
-            self.center = (0, 0)
+        x, y = list(zip(*self._mesh_points))
+        x = np.asarray(x)
+        y = np.asarray(y)
+        xc, yc, radius = fit(x, y, self.start_node.coordinates, self.end_node.coordinates)
+        self.center = (xc, yc)
+        self.radius = radius
 
     def linear(self):
         for index, point in enumerate(self._mesh_points):
@@ -282,10 +272,23 @@ class Edge:
     def plot_circle(self):
         xc, yc = self._center
         start_point = self.start_node.coordinates
+        mid_point = self._mesh_points[1]
         end_point = self.end_node.coordinates
         start_theta = math.atan2(start_point[1] - yc, start_point[0] - xc)
         end_theta = math.atan2(end_point[1] - yc, end_point[0] - xc)
-        theta_fit = np.linspace(start_theta, end_theta, 180)
+        mid_theta = math.atan2(mid_point[1] - yc, mid_point[0] - xc)
+        if start_theta <= mid_theta <= end_theta:
+            theta_fit = np.linspace(start_theta, end_theta, 100)
+        elif start_theta >= mid_theta >= end_theta:
+            theta_fit = np.linspace(end_theta, start_theta, 100)
+        else:
+            if start_theta < 0:
+                start_theta = 2 * math.pi + start_theta
+            if end_theta < 0:
+                end_theta = 2 * math.pi + end_theta
+            if mid_theta < 0:
+                mid_theta = 2 * math.pi + mid_theta
+            theta_fit = np.linspace(start_theta, end_theta, 180)
         # theta_fit = np.linspace(math.pi / 2 - 0.3, math.pi + 0.3, 180)
         # stores all x and y coordinates along the fitted arc
         x_fit = xc + self.radius * np.cos(theta_fit)

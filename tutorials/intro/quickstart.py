@@ -8,8 +8,8 @@ from pycellfit.utils import read_segmented_image
 
 def main():
     # STEP 1: Reading in segmented image
-    # filename = 'hex.tif'
-    filename = 'Segment_0_000.tif'
+    filename = 'hex.tif'
+    # filename = 'Segment_0_000.tif'
     # load input image as a numpy ndarray
     array_of_pixels = read_segmented_image(filename)
 
@@ -53,10 +53,8 @@ def main():
         cell.plot()
     hex_mesh.plot()
     for edge in hex_mesh.edges:
-        if not edge.linear():
-            if not edge.outside(hex_mesh.background_label):
-                edge.plot_circle()
-
+        if not edge.outside(hex_mesh.background_label):
+            edge.plot_circle()
     plt.savefig('fig.png', dpi=1000)
     # plt.show()
 
