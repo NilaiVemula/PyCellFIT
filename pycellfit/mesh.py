@@ -195,7 +195,7 @@ class Mesh:
                 tension_label = edge_label_to_tension_label_dict[edge_label]
                 gy_matrix[junction._label + self.number_of_junctions][tension_label] = junction.y_unit_vectors_dict[
                     edge_label]
-        # print(gp_matrix)
+        print(gy_matrix.shape)
         top_left = np.matmul(gy_matrix.transpose(), gy_matrix)
         bottom_left = np.full((1, np.shape(top_left)[1]), 1)
         top_right = bottom_left.transpose()
@@ -204,7 +204,8 @@ class Mesh:
         bottom = np.concatenate((bottom_left, bottom_right), axis=1)
         big_matrix = np.concatenate((top, bottom), axis=0)
         zero = np.zeros((n_tensions + 1, 1))
+        zero[261][0] = 261
         print(big_matrix.shape, zero.shape)
         y = np.linalg.lstsq(big_matrix, zero)
-        print(y[0])
-        print(y[0])
+        # print(y[0])
+        print(np.mean(y[0]))

@@ -8,8 +8,8 @@ from pycellfit.utils import read_segmented_image
 
 def main():
     # STEP 1: Reading in segmented image
-    # filename = 'hex.tif'
-    filename = 'Segment_0_000.tif'
+    filename = 'hex.tif'
+    # filename = 'Segment_0_000.tif'
     # load input image as a numpy ndarray
     array_of_pixels = read_segmented_image(filename)
 
@@ -34,6 +34,9 @@ def main():
 
     # STEP 3: Circle Fit
     hex_mesh.circle_fit_all_edges()
+
+    # STEP 4: Solve Tensions
+    hex_mesh.solve_tensions()
 
     # STEP ??: Visualize
     # # show segmented image
@@ -70,11 +73,14 @@ def main():
     plt.imshow(array_of_pixels, cmap='gray', interpolation="nearest", vmax=255)
     for cell in hex_mesh.cells:
         cell.plot()
+    hex_mesh.plot()
+    for edge in hex_mesh.edges:
+        if not edge.outside(hex_mesh.background_label):
+            edge.plot(label=True)
 
-    hex_mesh.solve_tensions()
-    for junction in hex_mesh.junctions:
-        junction.plot()
-        junction.plot_unit_vectors()
+    # for junction in hex_mesh.junctions:
+    #     junction.plot()
+    #     junction.plot_unit_vectors()
     plt.savefig('fig.png', dpi=1000)
     # plt.show()
 
