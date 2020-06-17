@@ -10,7 +10,7 @@ import numpy as np
 from pycellfit.circle_fit import fit, distance
 
 
-class TestUtils(unittest.TestCase):
+class TestFit(unittest.TestCase):
     """
         This class contains test cases for the fitting process in circle_fit.py
     """
@@ -43,6 +43,30 @@ class TestUtils(unittest.TestCase):
 
         center = (xc, yc)
         self.assertAlmostEqual(distance(center, start_point), distance(center, end_point))
+
+
+class TestDistance(unittest.TestCase):
+    """
+        This class contains test cases for the fitting process in circle_fit.py
+    """
+
+    def test_same_point(self):
+        start_point = (0, 1)
+        end_point = (0, 1)
+
+        self.assertAlmostEqual(distance(end_point, start_point), 0)
+
+    def test_same_point_reverse(self):
+        start_point = (0, 1)
+        end_point = (0, 1)
+
+        self.assertAlmostEqual(distance(start_point, end_point), 0)
+
+    def test_unit_distance(self):
+        start_point = (0, 1)
+        end_point = (1, 1)
+
+        self.assertAlmostEqual(distance(start_point, end_point), 1)
 
 
 if __name__ == "__main__":

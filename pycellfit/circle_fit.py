@@ -19,7 +19,17 @@ def distance(point_1, point_2):
     return math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
 
 
-def findCircle(x1, y1, x2, y2, x3, y3):
+def find_circle(x1, y1, x2, y2, x3, y3):
+    """finds center and radius of a circle passing through three points
+
+    :param x1:
+    :param y1:
+    :param x2:
+    :param y2:
+    :param x3:
+    :param y3:
+    :return:
+    """
     points = np.asarray([[2 * x1, 2 * y1, 1], [2 * x2, 2 * y2, 1], [2 * x3, 2 * y3, 1]])
     radii = np.asarray([[-(x1 ** 2 + y1 ** 2)], [-(x2 ** 2 + y2 ** 2)], [-(x3 ** 2 + y3 ** 2)]])
     try:
@@ -30,6 +40,8 @@ def findCircle(x1, y1, x2, y2, x3, y3):
         yc = -b
         r = distance((x1, y1), (xc, yc))
     except np.linalg.LinAlgError:
+        # a singular matrix occurs when the three points are approximately collinear, so set these values very large
+        # (The small arc of a very large circle approximates a straight line)
         xc = 10000000000
         yc = 10000000000
         r = 10000000000
@@ -56,25 +68,21 @@ def fit(x, y, start_point, end_point):
     bounds = optimize.Bounds(lb, ub)
     third_point = optimize.minimize(fun=cost, x0=initial_guess, args=(x, y, start_point, end_point), bounds=bounds)
     third_point = third_point.x
-    xc, yc, radius = findCircle(start_point[0], start_point[1], third_point[0], third_point[1], end_point[0],
-                                end_point[1])
+    xc, yc, radius = find_circle(start_point[0], start_point[1], third_point[0], third_point[1], end_point[0],
+                                 end_point[1])
     return xc, yc, radius
 
 
 def cost(third_point, x, y, start_point, end_point):
-    """ cost function needs to minimized
+    """ cost function needs to minimized (sum of squared differences between actual radius and fit radius
+    (least-squares)
 
     :return:
     """
-    xc, yc, radius = findCircle(start_point[0], start_point[1], third_point[0], third_point[1], end_point[0],
-                                end_point[1])
+    xc, yc, radius = find_circle(start_point[0], start_point[1], third_point[0], third_point[1], end_point[0],
+                                 end_point[1])
     individual_radii = np.sqrt((x - xc) ** 2 + (y - yc) ** 2)
     residuals = individual_radii - radius
     least_squares = np.sum(np.square(residuals))
 
     return least_squares
-
-
-
-
-
