@@ -22,26 +22,40 @@ Project Description
 
 **Project Timeline**: Initial project started in August 2019 with work based off of XJ Xu. This repository was re-made in May 2020 in order to restart repository structure.
 
-**Project Status**: **Early development**
+**Project Status**: **Development**
 
 Getting Started
 ---------------
 This project is available on `PyPI <https://pypi.org/project/pycellfit/>`_ and can be installed using pip.
 
-It recommended that users make a virtual environment and install the package as such:
+It recommended that users make a `virtual environment <https://docs.python.org/3/tutorial/venv.html>`_ and then install
+the package as such:
 
-.. code-block:: console
+Install from PyPI:
+^^^^^^^^^^^^^^^^^^
+.. code:: bash
 
    pip install pycellfit
+
+Or compile from source:
+^^^^^^^^^^^^^^^^^^^^^^^
+.. code:: bash
+
+   git clone https://github.com/NilaiVemula/pycellfit.git
+   cd pycellfit
+   python setup.py install
 
 Full documentation for this package can be found on `readthedocs <https://pycellfit.readthedocs.io/>`_.
 
 Dependencies
 ^^^^^^^^^^^^
-One of the goals of this project is to avoid dependencies that are difficult to install such as GDAL. This project
-primarily depends on numpy, scipy, matplotlib, and other common python packages common in scientific computing. A
-full list of dependencies is available in the requirements.txt_ file. All dependencies should be automatically
-installed when running pip install.
+This project is written in Python and has been tested on Python 3.7 and 3.8 on Linux and Windows. This project
+primarily
+depends
+on numpy,
+scipy, matplotlib, and other common python packages common in scientific computing. Additionally, `Pillow
+<https://github.com/python-pillow/Pillow>`_ is required for reading in input image files. A full list of dependencies
+is available in the requirements.txt_ file. All dependencies should be automatically installed when running pip install.
 
 .. _requirements.txt: requirements.txt
 
@@ -52,7 +66,49 @@ tests are run with every commit or merge.
 
 Features
 --------
-This section will include a list of features available in the package and maybe a check-list of things to add...
+Currently, pycellfit supports the following features in the cellular force inference pipeline:
+
+converting raw images into segmented images: |uncheck|
+
+- see `SeedWaterSegmenter <https://github
+  .com/davidmashburn/SeedWaterSegmenter>`_ or `neural_net_cell_segmenter <https://github
+  .com/NilaiVemula/neural_net_cell_segmenter>`_ (work in progress).
+
+read in segmented images: |check|
+
+convert between watershed and skeleton segmented images: |check|
+
+identify triple junctions: |check|
+
+identify quad junctions: |uncheck|
+
+generate a mesh: |check|
+
+fit cell edges to circular arcs: |check|
+
+calculate tangent vectors using circle fits, nearest segment, and chord methods: |uncheck|
+
+calculate tensions: |uncheck|
+
+calculate pressures: |uncheck|
+
+visualize all of the above steps: |check|
+
+.. |check| raw:: html
+
+    <input checked=""  type="checkbox">
+
+.. |check_| raw:: html
+
+    <input checked=""  disabled="" type="checkbox">
+
+.. |uncheck| raw:: html
+
+    <input type="checkbox">
+
+.. |uncheck_| raw:: html
+
+    <input disabled="" type="checkbox">
 
 Examples
 --------
