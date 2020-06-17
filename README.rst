@@ -88,7 +88,9 @@ Currently, pycellfit supports the following features in the cellular force infer
 
 - [ ] calculate tangent vectors using circle fits, nearest segment, and chord methods: |uncheck|
 
-- [ ] calculate tensions: |uncheck|
+    - circle fit is incorrect, others have not been added
+
+- [x] calculate tensions: |check|
 
 - [ ] calculate pressures: |uncheck|
 
