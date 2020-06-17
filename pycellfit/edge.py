@@ -15,6 +15,7 @@ def distance(p1, p2):
 def collinear(points, epsilon=0.01):
     """ determine if three points are collinear
 
+    :param epsilon:
     :param points: list of 3 point tuples that might be collinear
     :type points: list of 3 2-member tuples
     :return: boolean to tell if the points are collinear or not
@@ -261,6 +262,7 @@ class Edge:
         self.center = (xc, yc)
         self.radius = radius
 
+    @property
     def linear(self):
         for index, point in enumerate(self._mesh_points):
             if index < len(self._mesh_points) - 3:
@@ -269,19 +271,122 @@ class Edge:
                     return False
         return True
 
+    def angular_position(self, coordinates):
+        """ given a (x,y) coordinate, the angular position in radians from 0 to 2*pi around the fit circle is returned
+
+        :param coordinates:
+        :return:
+        """
+        x, y = coordinates
+        angular_position = math.atan2(y - self.yc, x - self.xc)  # y,x
+        # convert to radians between 0 and 2*pi
+        if angular_position > 0:
+            angular_position = angular_position
+        else:
+            angular_position = 2 * math.pi + angular_position
+        return angular_position
+
+    @property
+    def cw_around_circle(self):
+        """true if the edge (start_node to end_node) goes clockwise around the fit circle, false if ccw
+
+        :return:
+        """
+
+        start_angular_position = self.angular_position(self.start_node.coordinates)
+        end_angular_position = self.angular_position(self.end_node.coordinates)
+        return start_angular_position > end_angular_position
+
     @property
     def start_tangent_angle(self):
-        return math.atan((-self.start_node.x + self.xc) / (self.start_node.y - self.yc))
+
+        # circular edges
+        slope_of_tangent_line = (-(self.start_node.x - self.xc)) / (self.start_node.y - self.yc)
+        start_angular_position = self.angular_position(self.start_node.coordinates)
+        angle = math.atan(slope_of_tangent_line)
+        if self.cw_around_circle:
+            if math.pi < start_angular_position < 2 * math.pi:
+                # third and fourth quadrants
+                angle += math.pi
+        else:
+            if math.pi > start_angular_position > 0:
+                # first and second quadrants
+                angle += math.pi
+
+        # linear edges
+        if self.linear:
+            if self.end_node.x > self.start_node.x:
+                angle = math.atan2(-self.start_node.y + self.end_node.y, -self.start_node.x + self.end_node.x)
+            elif self.end_node.x == self.start_node.x:
+                if self.end_node.y - self.start_node.y > 0:
+                    angle = math.pi / 2
+                else:
+                    angle = 3 * math.pi / 2
+            elif self.end_node.x < self.start_node.x:
+                if self.end_node.y > self.start_node.y:
+                    angle = math.pi / 2 + math.atan(
+                        (self.start_node.x - self.end_node.x) / (-self.start_node.y + self.end_node.y))
+                else:
+                    angle = math.pi + math.atan(
+                        (self.start_node.y - self.end_node.y) / (self.start_node.x - self.end_node.x))
+
+        # convert to range of 0 to 2pi
+        if angle < 0:
+            angle += 2 * math.pi
+        return angle
 
     @property
     def end_tangent_angle(self):
-        return math.atan((-self.end_node.x + self.xc) / (self.end_node.y - self.yc))
+        slope_of_tangent_line = (-(self.end_node.x - self.xc)) / (self.end_node.y - self.yc)
+        end_angular_position = self.angular_position(self.end_node.coordinates)
+        angle = math.atan(slope_of_tangent_line)
+        if self.cw_around_circle:
+            if math.pi < end_angular_position < 2 * math.pi:
+                # third and fourth quadrants
+                angle += math.pi
+        else:
+            if math.pi > end_angular_position > 0:
+                # first and second quadrants
+                angle += math.pi
+
+        # convert to range of 0 to 2pi
+        if angle < 0:
+            angle += 2 * math.pi
+        angle -= math.pi
+
+        # linear edges
+        if self.linear:
+            if self.start_node.x > self.end_node.x:
+                angle = math.atan2(-self.end_node.y + self.start_node.y, -self.end_node.x + self.start_node.x)
+            elif self.start_node.x == self.end_node.x:
+                if self.start_node.y - self.end_node.y > 0:
+                    angle = math.pi / 2
+                else:
+                    angle = 3 * math.pi / 2
+            elif self.start_node.x < self.end_node.x:
+                if self.start_node.y > self.end_node.y:
+                    angle = math.pi / 2 + math.atan(
+                        (self.end_node.x - self.start_node.x) / (-self.end_node.y + self.start_node.y))
+                else:
+                    angle = math.pi + math.atan(
+                        (self.end_node.y - self.start_node.y) / (self.end_node.x - self.start_node.x))
+
+        # convert to range of 0 to 2pi
+        if angle < 0:
+            angle += 2 * math.pi
+
+        return angle
 
     def plot_tangent(self):
         angle = self.start_tangent_angle
+
         plt.plot([self.start_node.x, self.start_node.x + 10 * math.cos(angle)], [self.start_node.y,
                                                                                  self.start_node.y + 10 * math.sin(
                                                                                      angle)], 'y-', lw=0.75)
+        angle = self.end_tangent_angle
+        plt.plot([self.end_node.x, self.end_node.x + 10 * math.cos(angle)], [self.end_node.y,
+                                                                             self.end_node.y + 10 * math.sin(
+                                                                                 angle)], 'y-', lw=0.75)
 
     def plot_circle(self):
         xc, yc = self._center

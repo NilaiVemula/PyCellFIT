@@ -48,15 +48,23 @@ def main():
     #     if not edge.outside:
     #         edge.plot(label=True)
 
-    # show cells
+    # show cell labels
     for cell in hex_mesh.cells:
         cell.plot()
+
+    # show mesh
     hex_mesh.plot()
+
+    # show circle fits
     for edge in hex_mesh.edges:
         if not edge.outside(hex_mesh.background_label):
-            print(edge.start_tangent_angle, edge.end_tangent_angle)
             edge.plot_circle()
-            #edge.plot_tangent()
+
+    # show tangent vectors
+    for edge in hex_mesh.edges:
+        if not edge.outside(hex_mesh.background_label):
+            edge.plot_tangent()
+
     plt.savefig('fig.png', dpi=1000)
     # plt.show()
 
