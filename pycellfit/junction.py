@@ -11,6 +11,8 @@ class Junction:
         self._edge_labels = set()
         self._label = next(Junction.id_iter)
         self._cell_labels = cells_set
+        self.x_unit_vectors_dict = {}  # each dictionary entry is edge label: x_unit_vector_component
+        self.y_unit_vectors_dict = {}  # each dictionary entry is edge label: y_unit_vector_component
 
     @property
     def coordinates(self):
@@ -73,6 +75,19 @@ class Junction:
         if label:
             plt.text(self.coordinates[0], self.coordinates[1], str(self._label), color='black', fontsize=2.5,
                      horizontalalignment='center', verticalalignment='center')
+
+    def plot_unit_vectors(self):
+        # for edge_label in self.x_unit_vectors_dict:
+        #     x=self.x_unit_vectors_dict[edge_label]
+        #     plt.plot([self.x,self.x+10*x],[self.y,self.y], lw=0.75)
+        # for edge_label in self.y_unit_vectors_dict:
+        #     y=self.y_unit_vectors_dict[edge_label]
+        #     plt.plot([self.x,self.x],[self.y,self.y+10*y], lw=0.75)
+
+        for edge_label in self.x_unit_vectors_dict:
+            x = self.x_unit_vectors_dict[edge_label]
+            y = self.y_unit_vectors_dict[edge_label]
+            plt.plot([self.x, self.x + 10 * x], [self.y, self.y + 10 * y], lw=0.75)
 
     @property
     def cell_labels(self):

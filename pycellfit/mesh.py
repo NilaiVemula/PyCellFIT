@@ -176,3 +176,35 @@ class Mesh:
     def plot(self):
         for point in self.points:
             plt.scatter(point[0], point[1], c='green', s=1)
+
+    def solve_tensions(self):
+        edge_label_to_tension_label_dict = {}  # each entry is edge label: tension_label
+        n_tensions = 0
+        for edge in self.edges:
+            if not edge.outside(self.background_label):
+                edge.tension_label = n_tensions
+                edge_label_to_tension_label_dict[edge._label] = n_tensions
+                edge.map_unit_vectors_to_junctions()
+                n_tensions += 1
+        gy_matrix = np.zeros((2 * self.number_of_triple_junctions, n_tensions))
+        for junction in self.junctions:
+            for edge_label in junction.x_unit_vectors_dict:
+                tension_label = edge_label_to_tension_label_dict[edge_label]
+                gy_matrix[junction._label][tension_label] = junction.x_unit_vectors_dict[edge_label]
+            for edge_label in junction.y_unit_vectors_dict:
+                tension_label = edge_label_to_tension_label_dict[edge_label]
+                gy_matrix[junction._label + self.number_of_junctions][tension_label] = junction.y_unit_vectors_dict[
+                    edge_label]
+        # print(gp_matrix)
+        top_left = np.matmul(gy_matrix.transpose(), gy_matrix)
+        bottom_left = np.full((1, np.shape(top_left)[1]), 1)
+        top_right = bottom_left.transpose()
+        top = np.concatenate((top_left, top_right), axis=1)
+        bottom_right = np.zeros((1, top.shape[1] - bottom_left.shape[1]))
+        bottom = np.concatenate((bottom_left, bottom_right), axis=1)
+        big_matrix = np.concatenate((top, bottom), axis=0)
+        zero = np.zeros((n_tensions + 1, 1))
+        print(big_matrix.shape, zero.shape)
+        y = np.linalg.lstsq(big_matrix, zero)
+        print(y[0])
+        print(y[0])

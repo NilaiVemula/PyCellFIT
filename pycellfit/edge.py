@@ -58,6 +58,7 @@ class Edge:
         self._cell_label_set = cells
         self._label = next(Edge.id_iter)
         self._corresponding_tension_vector = None
+        self.tension_label = 0
 
     def _get_split_point(self, a, b, dist):
 
@@ -377,12 +378,24 @@ class Edge:
 
         return angle
 
+    def map_unit_vectors_to_junctions(self):
+        angle = self.start_tangent_angle
+
+        self.start_node.x_unit_vectors_dict[self._label] = math.cos(angle)
+        self.start_node.y_unit_vectors_dict[self._label] = math.sin(angle)
+
+        angle = self.end_tangent_angle
+
+        self.end_node.x_unit_vectors_dict[self._label] = math.cos(angle)
+        self.end_node.y_unit_vectors_dict[self._label] = math.sin(angle)
+
     def plot_tangent(self):
         angle = self.start_tangent_angle
 
         plt.plot([self.start_node.x, self.start_node.x + 10 * math.cos(angle)], [self.start_node.y,
                                                                                  self.start_node.y + 10 * math.sin(
                                                                                      angle)], 'y-', lw=0.75)
+
         angle = self.end_tangent_angle
         plt.plot([self.end_node.x, self.end_node.x + 10 * math.cos(angle)], [self.end_node.y,
                                                                              self.end_node.y + 10 * math.sin(
