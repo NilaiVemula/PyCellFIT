@@ -68,31 +68,31 @@ Features
 --------
 Currently, pycellfit supports the following features in the cellular force inference pipeline:
 
-converting raw images into segmented images: |uncheck|
+- [ ] converting raw images into segmented images: |uncheck|
 
-- see `SeedWaterSegmenter <https://github
-  .com/davidmashburn/SeedWaterSegmenter>`_ or `neural_net_cell_segmenter <https://github
-  .com/NilaiVemula/neural_net_cell_segmenter>`_ (work in progress).
+  - see `SeedWaterSegmenter <https://github
+    .com/davidmashburn/SeedWaterSegmenter>`_ or `neural_net_cell_segmenter <https://github
+    .com/NilaiVemula/neural_net_cell_segmenter>`_ (work in progress).
 
-read in segmented images: |check|
+- [x] read in segmented images: |check|
 
-convert between watershed and skeleton segmented images: |check|
+- [x] convert between watershed and skeleton segmented images: |check|
 
-identify triple junctions: |check|
+- [x] identify triple junctions: |check|
 
-identify quad junctions: |uncheck|
+- [ ] identify quad junctions: |uncheck|
 
-generate a mesh: |check|
+- [x] generate a mesh: |check|
 
-fit cell edges to circular arcs: |check|
+- [x] fit cell edges to circular arcs: |check|
 
-calculate tangent vectors using circle fits, nearest segment, and chord methods: |uncheck|
+- [ ] calculate tangent vectors using circle fits, nearest segment, and chord methods: |uncheck|
 
-calculate tensions: |uncheck|
+- [ ] calculate tensions: |uncheck|
 
-calculate pressures: |uncheck|
+- [ ] calculate pressures: |uncheck|
 
-visualize all of the above steps: |check|
+- [x] visualize all of the above steps: |check|
 
 .. |check| raw:: html
 
