@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from . import junction
-from .new_new_circle_fit import fit
+from .circle_fit import fit
 
 
 def distance(p1, p2):

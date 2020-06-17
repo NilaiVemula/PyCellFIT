@@ -75,49 +75,6 @@ def cost(third_point, x, y, start_point, end_point):
     return least_squares
 
 
-def test1():
-    # first quadrant
-    x = np.array([0, 0.5, math.sqrt(2) / 2, math.sqrt(3) / 2, 1])
-    y = np.array([1, math.sqrt(3) / 2, math.sqrt(2) / 2, 0.5, 0])
-    start_point = (0, 1)
-    end_point = (1, 0)
-
-    xc, yc, radius = fit(x, y, start_point, end_point)
-    print("xc: " + str(xc))
-    print("yc: " + str(yc))
-    print("radius: " + str(radius))
-
-    center = (xc, yc)
-
-    print("VERIFICATION:")
-    print(distance(center, start_point), distance(center, end_point))
 
 
-def test2():
-    x = np.array([-1, -math.sqrt(3.9) / 2, -math.sqrt(2.1) / 2, -0.55, 0])
-    y = np.array([0, 0.55, math.sqrt(2.6) / 2, (0.1 + math.sqrt(3)) / 2, 1])
-    start_point = (-1, 0)
-    end_point = (0, 1)
 
-    x = np.array([196.5, 204.5, 211.5, 219.5])
-    y = np.array([370.5, 374.5, 379.5, 383.5])
-    start_point = (196.5, 370.5)
-    end_point = (219.5, 383.5)
-
-    xc, yc, radius = fit(x, y, start_point, end_point)
-    print("xc: " + str(xc))
-    print("yc: " + str(yc))
-    print("radius: " + str(radius))
-
-    center = (xc, yc)
-
-    print("VERIFICATION:")
-    print(distance(center, start_point), distance(center, end_point))
-
-
-def test_findCircle():
-    print(findCircle(-6, 3, -5, 4, -4, 4))
-
-
-if __name__ == '__main__':
-    test_findCircle()
