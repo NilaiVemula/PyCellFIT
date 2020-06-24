@@ -74,9 +74,10 @@ def main():
     for cell in hex_mesh.cells:
         cell.plot()
     hex_mesh.plot()
-    for edge in hex_mesh.edges:
-        if not edge.outside(hex_mesh.background_label):
-            edge.plot(label=True)
+    hex_mesh.plot_tensions()
+    # for edge in hex_mesh.edges:
+    #     if not edge.outside(hex_mesh.background_label):
+    #         edge.plot_circle()
 
     # for junction in hex_mesh.junctions:
     #     junction.plot()

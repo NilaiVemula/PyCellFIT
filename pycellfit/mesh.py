@@ -206,6 +206,20 @@ class Mesh:
         zero = np.zeros((n_tensions + 1, 1))
         zero[261][0] = 261
         print(big_matrix.shape, zero.shape)
-        y = np.linalg.lstsq(big_matrix, zero)
+        y = np.linalg.lstsq(big_matrix, zero, rcond=None)
         # print(y[0])
         print(np.mean(y[0]))
+        for edge_label, tension_label in edge_label_to_tension_label_dict.items():
+            tension_magnitude = y[0][tension_label]
+            for edge in self.edges:
+                if edge._label == edge_label:
+                    edge.tension_magnitude = tension_magnitude
+
+    def plot_tensions(self):
+        max_tension = 2
+        from matplotlib import cm
+
+        viridis = cm.get_cmap('Spectral', 12)
+        for edge in self.edges:
+            if not edge.outside(self.background_label):
+                edge.plot_tangent(c=viridis(edge.tension_magnitude / max_tension)[0])
