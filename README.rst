@@ -120,8 +120,7 @@ A example walk-through of how to use this module is found in quickstart_.
 
 Future Goals
 ------------
-The final implementation of pycellfit will be as a web-app based on the Django framework. See (add link to
-django-pycellfit repo).
+The final implementation of pycellfit will be as a web-app based on the Django framework. (See `pycellfit-web <https://github.com/NilaiVemula/pycellfit-web>`_)
 
 References
 ----------
