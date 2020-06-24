@@ -144,7 +144,7 @@ class Edge:
         Returns a list of ogr wkbLineString Geometries.
 
         """
-        line = self._intermediate_points
+        line = self._intermediate_points.copy()
         if not n_pieces:
             n_pieces = int(math.ceil(self.length / length))
         if not length:
