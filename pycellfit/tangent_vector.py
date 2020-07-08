@@ -6,18 +6,19 @@ from math import pi, sin, cos, isclose
 from . import edge
 
 
-class TensionVector:
+class TangentVector:
     id_iter = itertools.count()
 
-    def __init__(self, edge):
+    def __init__(self, initial_point, terminal_point, edge, junction):
         self._magnitude = 0
         self._direction = 0
         self._corresponding_edge = edge
+        self._corresponding_junction = junction
         self._label = next(TensionVector.id_iter)
 
     @property
     def magnitude(self):
-        """ Magnitude of the tension vector
+        """ Magnitude of the tangent vector
 
         :return: magnitude
         """
