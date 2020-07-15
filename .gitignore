@@ -206,3 +206,6 @@ pycellfit_user/
 
 # ignore full idea folder
 .idea/
+
+#ignore vs code settings
+.vscode/

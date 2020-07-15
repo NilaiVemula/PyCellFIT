@@ -44,7 +44,7 @@ def find_circle(x1, y1, x2, y2, x3, y3):
         # (The small arc of a very large circle approximates a straight line)
         xc = 10000000000
         yc = 10000000000
-        r = 10000000000
+        r = math.sqrt((x1 - xc) ** 2 + (y1 - yc) ** 2)
 
     return xc, yc, r
 

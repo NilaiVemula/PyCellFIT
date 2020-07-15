@@ -3,18 +3,29 @@
 import itertools
 from math import pi, sin, cos, isclose
 
-from . import edge
+from . import edge, junction
 
 
 class TangentVector:
     id_iter = itertools.count()
 
     def __init__(self, initial_point, terminal_point, edge, junction):
+        """ Constructor for a TangentVector object
+
+        :param initial_point:
+        :type initial_point: tuple
+        :param terminal_point:
+        :type terminal_point: tuple
+        :param edge:
+        :type edge: edge.Edge
+        :param junction:
+        :type junction: junction.Junction
+        """
         self._magnitude = 0
         self._direction = 0
         self._corresponding_edge = edge
         self._corresponding_junction = junction
-        self._label = next(TensionVector.id_iter)
+        self._label = next(TangentVector.id_iter)
 
     @property
     def magnitude(self):

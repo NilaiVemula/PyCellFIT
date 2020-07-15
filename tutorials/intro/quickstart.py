@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import math
+
 import matplotlib.pyplot as plt
 
 from pycellfit.mesh import Mesh
@@ -8,7 +10,7 @@ from pycellfit.utils import read_segmented_image
 
 def main():
     # STEP 1: Reading in segmented image
-    filename = 'hex.tif'
+    filename = 'CreateMesh_UniformPressureNoAA.tif'
     # filename = 'Segment_0_000.tif'
     # load input image as a numpy ndarray
     array_of_pixels = read_segmented_image(filename)
@@ -37,6 +39,11 @@ def main():
 
     # STEP 4: Solve Tensions
     hex_mesh.solve_tensions()
+
+    for e in hex_mesh.edges:
+        if not e.outside(0):
+            print(math.degrees(e.start_tangent_angle()))
+            print(math.degrees(e.end_tangent_angle()))
 
     # STEP ??: Visualize
     # # show segmented image
@@ -74,10 +81,8 @@ def main():
     for cell in hex_mesh.cells:
         cell.plot()
     hex_mesh.plot()
+
     hex_mesh.plot_tensions()
-    # for edge in hex_mesh.edges:
-    #     if not edge.outside(hex_mesh.background_label):
-    #         edge.plot_circle()
 
     # for junction in hex_mesh.junctions:
     #     junction.plot()

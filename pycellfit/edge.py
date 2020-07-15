@@ -299,21 +299,27 @@ class Edge:
         end_angular_position = self.angular_position(self.end_node.coordinates)
         return start_angular_position > end_angular_position
 
-    @property
-    def start_tangent_angle(self):
+    def start_tangent_angle(self, method='chord'):
+        if method == 'chord':
+            angle = math.atan2(self.end_node.y - self.start_node.y, self.end_node.x - self.start_node.x)
+            # convert to range of 0 to 2pi
+            if angle < 0:
+                angle += 2 * math.pi
+            return angle
 
-        # circular edges
-        slope_of_tangent_line = (-(self.start_node.x - self.xc)) / (self.start_node.y - self.yc)
-        start_angular_position = self.angular_position(self.start_node.coordinates)
-        angle = math.atan(slope_of_tangent_line)
-        if self.cw_around_circle:
-            if math.pi < start_angular_position < 2 * math.pi:
-                # third and fourth quadrants
-                angle += math.pi
-        else:
-            if math.pi > start_angular_position > 0:
-                # first and second quadrants
-                angle += math.pi
+        if method == 'circular':
+            # circular edges
+            slope_of_tangent_line = (-(self.start_node.x - self.xc)) / (self.start_node.y - self.yc)
+            start_angular_position = self.angular_position(self.start_node.coordinates)
+            angle = math.atan(slope_of_tangent_line)
+            if self.cw_around_circle:
+                if math.pi < start_angular_position < 2 * math.pi:
+                    # third and fourth quadrants
+                    angle += math.pi
+            else:
+                if math.pi > start_angular_position > 0:
+                    # first and second quadrants
+                    angle += math.pi
 
         # linear edges
         if self.linear:
@@ -337,24 +343,31 @@ class Edge:
             angle += 2 * math.pi
         return angle
 
-    @property
-    def end_tangent_angle(self):
-        slope_of_tangent_line = (-(self.end_node.x - self.xc)) / (self.end_node.y - self.yc)
-        end_angular_position = self.angular_position(self.end_node.coordinates)
-        angle = math.atan(slope_of_tangent_line)
-        if self.cw_around_circle:
-            if math.pi < end_angular_position < 2 * math.pi:
-                # third and fourth quadrants
-                angle += math.pi
-        else:
-            if math.pi > end_angular_position > 0:
-                # first and second quadrants
-                angle += math.pi
+    def end_tangent_angle(self, method='chord'):
+        if method == 'chord':
+            angle = math.atan2(-self.end_node.y + self.start_node.y, -self.end_node.x + self.start_node.x)
+            # convert to range of 0 to 2pi
+            if angle < 0:
+                angle += 2 * math.pi
+            return angle
 
-        # convert to range of 0 to 2pi
-        if angle < 0:
-            angle += 2 * math.pi
-        angle -= math.pi
+        if method == 'circular':
+            slope_of_tangent_line = (-(self.end_node.x - self.xc)) / (self.end_node.y - self.yc)
+            end_angular_position = self.angular_position(self.end_node.coordinates)
+            angle = math.atan(slope_of_tangent_line)
+            if self.cw_around_circle:
+                if math.pi < end_angular_position < 2 * math.pi:
+                    # third and fourth quadrants
+                    angle += math.pi
+            else:
+                if math.pi > end_angular_position > 0:
+                    # first and second quadrants
+                    angle += math.pi
+
+            # convert to range of 0 to 2pi
+            if angle < 0:
+                angle += 2 * math.pi
+            angle -= math.pi
 
         # linear edges
         if self.linear:
@@ -373,31 +386,31 @@ class Edge:
                     angle = math.pi + math.atan(
                         (self.end_node.y - self.start_node.y) / (self.end_node.x - self.start_node.x))
 
-        # convert to range of 0 to 2pi
-        if angle < 0:
-            angle += 2 * math.pi
+            # convert to range of 0 to 2pi
+            if angle < 0:
+                angle += 2 * math.pi
 
         return angle
 
     def map_unit_vectors_to_junctions(self):
-        angle = self.start_tangent_angle
+        angle = self.start_tangent_angle()
 
         self.start_node.x_unit_vectors_dict[self._label] = math.cos(angle)
         self.start_node.y_unit_vectors_dict[self._label] = math.sin(angle)
 
-        angle = self.end_tangent_angle
+        angle = self.end_tangent_angle()
 
         self.end_node.x_unit_vectors_dict[self._label] = math.cos(angle)
         self.end_node.y_unit_vectors_dict[self._label] = math.sin(angle)
 
     def plot_tangent(self, c='y'):
-        angle = self.start_tangent_angle
+        angle = self.start_tangent_angle()
 
         plt.plot([self.start_node.x, self.start_node.x + 10 * math.cos(angle)], [self.start_node.y,
                                                                                  self.start_node.y + 10 * math.sin(
                                                                                      angle)], c=c, lw=0.75)
 
-        angle = self.end_tangent_angle
+        angle = self.end_tangent_angle()
         plt.plot([self.end_node.x, self.end_node.x + 10 * math.cos(angle)], [self.end_node.y,
                                                                              self.end_node.y + 10 * math.sin(
                                                                                  angle)], c=c, lw=0.75)
