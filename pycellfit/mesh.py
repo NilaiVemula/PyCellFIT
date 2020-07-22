@@ -1,5 +1,6 @@
 import math
 import statistics
+import sys
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -231,6 +232,10 @@ class Mesh:
             for edge in self.edges:
                 if edge._label == edge_label:
                     edge.tension_magnitude = tension_magnitude
+        np.savetxt(sys.stdout, y[0], fmt="%.3f")
+        plt.figure()
+        plt.hist(y[0])
+        plt.show()
 
     def plot_tensions(self):
         max_tension = 2
@@ -240,4 +245,4 @@ class Mesh:
         for edge in self.edges:
             if not edge.outside(self.background_label):
                 edge.plot_tangent(c=viridis(edge.tension_magnitude / max_tension)[0])
-        plt.colorbar()
+        # plt.colorbar()
