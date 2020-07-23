@@ -1,6 +1,5 @@
 import math
 import statistics
-import sys
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -218,7 +217,7 @@ class Mesh:
         bottom = np.concatenate((bottom_left, bottom_right), axis=1)
         big_matrix = np.concatenate((top, bottom), axis=0)
         zero = np.zeros((n_tensions + 1, 1))
-        zero[261][0] = 261
+        zero[n_tensions][0] = n_tensions
         print(big_matrix.shape, zero.shape)
         y = np.linalg.lstsq(big_matrix, zero, rcond=None)
         x = np.linalg.solve(big_matrix, zero)
@@ -231,11 +230,93 @@ class Mesh:
             tension_magnitude = y[0][tension_label]
             for edge in self.edges:
                 if edge._label == edge_label:
-                    edge.tension_magnitude = tension_magnitude
-        np.savetxt(sys.stdout, y[0], fmt="%.3f")
-        plt.figure()
-        plt.hist(y[0])
-        plt.show()
+                    edge.tension_magnitude = np.asscalar(tension_magnitude)
+        # np.savetxt(sys.stdout, y[0], fmt="%.3f")
+
+    def solve_tensions_new(self):
+        edge_label_to_tension_label_dict = {}  # each entry is edge label: tension_label
+        n_tensions = 0
+        for edge in self.edges:
+            if not edge.outside(self.background_label):
+                edge.tension_label = n_tensions
+                edge_label_to_tension_label_dict[edge._label] = n_tensions
+                edge.map_unit_vectors_to_junctions()
+                n_tensions += 1
+        gy_matrix = np.zeros((2 * self.number_of_triple_junctions, n_tensions))
+        for junction in self.junctions:
+            for edge_label in junction.x_unit_vectors_dict:
+                tension_label = edge_label_to_tension_label_dict[edge_label]
+                gy_matrix[junction._label][tension_label] = junction.x_unit_vectors_dict[edge_label]
+            for edge_label in junction.y_unit_vectors_dict:
+                tension_label = edge_label_to_tension_label_dict[edge_label]
+                gy_matrix[junction._label + self.number_of_junctions][tension_label] = junction.y_unit_vectors_dict[
+                    edge_label]
+
+        zero = np.zeros((n_tensions, 1))
+
+        print(gy_matrix.shape)
+        print(gy_matrix.T.shape)
+        print(np.linalg.inv(gy_matrix.dot(gy_matrix.T)).shape)
+        print(zero.shape)
+
+        gamma = np.linalg.inv(gy_matrix.T * gy_matrix) * gy_matrix.T * zero
+        print(gamma.shape)
+        print(np.mean(gamma))
+        print(gamma)
+
+    def solve_tensions_new2(self):
+        edge_label_to_tension_label_dict = {}  # each entry is edge label: tension_label
+        n_tensions = 0
+        for edge in self.edges:
+            if not edge.outside(self.background_label):
+                edge.tension_label = n_tensions
+                edge_label_to_tension_label_dict[edge._label] = n_tensions
+                edge.map_unit_vectors_to_junctions()
+                n_tensions += 1
+        gy_matrix = np.zeros((2 * self.number_of_triple_junctions, n_tensions))
+        for junction in self.junctions:
+            for edge_label in junction.x_unit_vectors_dict:
+                tension_label = edge_label_to_tension_label_dict[edge_label]
+                gy_matrix[junction._label][tension_label] = junction.x_unit_vectors_dict[edge_label]
+            for edge_label in junction.y_unit_vectors_dict:
+                tension_label = edge_label_to_tension_label_dict[edge_label]
+                gy_matrix[junction._label + self.number_of_junctions][tension_label] = junction.y_unit_vectors_dict[
+                    edge_label]
+        print(n_tensions)
+        print(gy_matrix.shape)
+        top_left = np.matmul(gy_matrix.transpose(), gy_matrix)
+        bottom_left = np.full((1, np.shape(top_left)[1]), 1)
+        top_right = bottom_left.transpose()
+        top = np.concatenate((top_left, top_right), axis=1)
+        bottom_right = np.zeros((1, top.shape[1] - bottom_left.shape[1]))
+        bottom = np.concatenate((bottom_left, bottom_right), axis=1)
+        big_matrix = np.concatenate((top, bottom), axis=0)
+        zero = np.zeros((n_tensions + 1, 1))
+        zero[n_tensions][0] = n_tensions
+        print(big_matrix.shape, zero.shape)
+        y = np.linalg.lstsq(big_matrix, zero, rcond=None)
+        x = np.linalg.solve(big_matrix, zero)
+        print(np.mean(x))
+        # print(y[0])
+        print(np.mean(y[0]))
+        print('lagrange multiplier: {}'.format(y[0][n_tensions]))
+        gamma_star = y[0]
+        # remove last row
+        gamma_star = gamma_star[:-1, :]
+        # print('mean_tension: {}, min_tension: {}, max_tension: {}'.format(np.mean(gamma_star), np.min(gamma_star),
+        # np.max(gamma_star)))
+        print("shape of gamma", gamma_star.shape)
+        for alpha in range(0, 2):
+            gamma = alpha * (gamma_star - 1) + 1
+            print(gy_matrix.shape, gamma.shape)
+            net_forces = np.matmul(gy_matrix, gamma)
+            print(net_forces.shape)
+
+            ssr = np.sum(net_forces ** 2)
+            print('alpha: {}, mean_tension: {}, min_tension: {}, max_tension: {}, ssr: {} '.format(alpha,
+                                                                                                   np.mean(gamma),
+                                                                                                   np.min(gamma),
+                                                                                                   np.max(gamma), ssr))
 
     def plot_tensions(self):
         max_tension = 2

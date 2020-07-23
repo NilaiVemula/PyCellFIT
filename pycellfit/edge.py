@@ -403,7 +403,7 @@ class Edge:
         self.end_node.x_unit_vectors_dict[self._label] = math.cos(angle)
         self.end_node.y_unit_vectors_dict[self._label] = math.sin(angle)
 
-    def plot_tangent(self, c='y'):
+    def plot_tangent(self, c='y', ):
         angle = self.start_tangent_angle()
 
         plt.plot([self.start_node.x, self.start_node.x + 10 * math.cos(angle)], [self.start_node.y,
@@ -414,7 +414,9 @@ class Edge:
         plt.plot([self.end_node.x, self.end_node.x + 10 * math.cos(angle)], [self.end_node.y,
                                                                              self.end_node.y + 10 * math.sin(
                                                                                  angle)], c=c, lw=0.75)
-
+        plt.text(self.location[0], self.location[1], str(round(self.tension_magnitude, 2)), color='red',
+                 fontsize=3,
+                 horizontalalignment='center', verticalalignment='center')
     def plot_circle(self):
         xc, yc = self._center
         start_point = self.start_node.coordinates

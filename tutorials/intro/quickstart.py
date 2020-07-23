@@ -10,6 +10,7 @@ def main():
     # STEP 1: Reading in segmented image
     # filename = 'CreateMesh_UniformPressureNoAA.tif'
     filename = 'Segment_0_000.tif'
+    # filename = 'CellFIT_MeshOfHexagonalCells030.tif'
     # load input image as a numpy ndarray
     array_of_pixels = read_segmented_image(filename)
     print(array_of_pixels.shape)
@@ -38,6 +39,7 @@ def main():
 
     # STEP 4: Solve Tensions
     hex_mesh.solve_tensions()
+    hex_mesh.solve_tensions_new2()
 
     # for e in hex_mesh.edges:
     #     if not e.outside(0):
@@ -70,9 +72,7 @@ def main():
     #         edge.plot_circle()
     #
     # # show tangent vectors
-    # for edge in hex_mesh.edges:
-    #     if not edge.outside(hex_mesh.background_label):
-    #         edge.plot_tangent()
+
     #
     # plt.savefig('fig.png', dpi=1000)
     plt.figure()
@@ -81,7 +81,11 @@ def main():
         cell.plot()
     hex_mesh.plot()
 
-    hex_mesh.plot_tensions()
+    for edge in hex_mesh.edges:
+        if not edge.outside(hex_mesh.background_label):
+            edge.plot_tangent()
+
+    # hex_mesh.plot_tensions()
 
     # for junction in hex_mesh.junctions:
     #     junction.plot()
