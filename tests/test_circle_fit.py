@@ -37,9 +37,9 @@ class TestFit(unittest.TestCase):
         end_point = (219.5, 383.5)
 
         xc, yc, radius = fit(x, y, start_point, end_point)
-        self.assertLess(xc, -1000000)
-        self.assertGreater(yc, 1000000)
-        self.assertGreater(radius, 1000000)
+        self.assertLess(xc, -10000)
+        self.assertGreater(yc, 10000)
+        self.assertGreater(radius, 10000)
 
         center = (xc, yc)
         self.assertAlmostEqual(distance(center, start_point), distance(center, end_point))
