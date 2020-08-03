@@ -5,8 +5,11 @@
 
 from setuptools import setup, find_packages
 
-with open("README.rst", "r") as readme_file:
-    readme = readme_file.read()
+# read the contents of your README file
+from os import path
+this_directory = path.abspath(path.dirname(__file__))
+with open(path.join(this_directory, 'README.rst'), encoding='utf-8') as f:
+    long_description = f.read()
 
 # todo: edit to include all dependencies
 
@@ -38,4 +41,6 @@ setup(
     ],
     test_suite='tests',
     tests_require=test_requirements,
+    long_description=long_description,
+    long_description_content_type='text/x-rst'
 )
