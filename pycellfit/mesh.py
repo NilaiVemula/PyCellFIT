@@ -234,6 +234,7 @@ class Mesh:
         # np.savetxt(sys.stdout, y[0], fmt="%.3f")
 
     def solve_tensions_new(self):
+        # alternative method of solving tensions
         edge_label_to_tension_label_dict = {}  # each entry is edge label: tension_label
         n_tensions = 0
         for edge in self.edges:
@@ -265,6 +266,8 @@ class Mesh:
         print(gamma)
 
     def solve_tensions_new2(self):
+        # alternative alternate method of solving tensions
+
         edge_label_to_tension_label_dict = {}  # each entry is edge label: tension_label
         n_tensions = 0
         for edge in self.edges:
@@ -282,6 +285,7 @@ class Mesh:
                 tension_label = edge_label_to_tension_label_dict[edge_label]
                 gy_matrix[junction._label + self.number_of_junctions][tension_label] = junction.y_unit_vectors_dict[
                     edge_label]
+        
         print(n_tensions)
         print(gy_matrix.shape)
         top_left = np.matmul(gy_matrix.transpose(), gy_matrix)
@@ -311,7 +315,7 @@ class Mesh:
             print(gy_matrix.shape, gamma.shape)
             net_forces = np.matmul(gy_matrix, gamma)
             print(net_forces.shape)
-
+            # calculate sum of squared residuals
             ssr = np.sum(net_forces ** 2)
             print('alpha: {}, mean_tension: {}, min_tension: {}, max_tension: {}, ssr: {} '.format(alpha,
                                                                                                    np.mean(gamma),
