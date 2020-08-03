@@ -90,7 +90,7 @@ def main():
     # for junction in hex_mesh.junctions:
     #     junction.plot()
     #     junction.plot_unit_vectors()
-    plt.savefig('fig.png', dpi=1000)
+    plt.savefig('fig.png', dpi=1000) # this step takes the longest
     # plt.show()
 
 
