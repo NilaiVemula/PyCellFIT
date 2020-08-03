@@ -68,49 +68,33 @@ Features
 --------
 Currently, pycellfit supports the following features in the cellular force inference pipeline:
 
-- [ ] converting raw images into segmented images: |uncheck|
+- [ ] converting raw images into segmented images
 
   - see `SeedWaterSegmenter <https://github
     .com/davidmashburn/SeedWaterSegmenter>`_ or `neural_net_cell_segmenter <https://github
     .com/NilaiVemula/neural_net_cell_segmenter>`_ (work in progress).
 
-- [x] read in segmented images: |check|
+- [x] read in segmented images
 
-- [x] convert between watershed and skeleton segmented images: |check|
+- [x] convert between watershed and skeleton segmented images
 
-- [x] identify triple junctions: |check|
+- [x] identify triple junctions
 
-- [ ] identify quad junctions: |uncheck|
+- [ ] identify quad junctions
 
-- [x] generate a mesh: |check|
+- [x] generate a mesh
 
-- [x] fit cell edges to circular arcs: |check|
+- [x] fit cell edges to circular arcs
 
-- [ ] calculate tangent vectors using circle fits, nearest segment, and chord methods: |uncheck|
+- [ ] calculate tangent vectors using circle fits, nearest segment, and chord methods
 
   - circle fit is incorrect, others have not been added
 
-- [x] calculate tensions: |check|
+- [x] calculate tensions
 
-- [ ] calculate pressures: |uncheck|
+- [ ] calculate pressures
 
-- [x] visualize all of the above steps: |check|
-
-.. |check| raw:: html
-
-    <input checked=""  type="checkbox">
-
-.. |check_| raw:: html
-
-    <input checked=""  disabled="" type="checkbox">
-
-.. |uncheck| raw:: html
-
-    <input type="checkbox">
-
-.. |uncheck_| raw:: html
-
-    <input disabled="" type="checkbox">
+- [x] visualize all of the above steps
 
 Examples
 --------
