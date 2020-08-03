@@ -26,7 +26,6 @@ setup(
     author='Nilai Vemula',
     author_email='nilai.r.vemula@vanderbilt.edu',
     description='Python implementation of the CellFIT method of inferring cellular forces',
-    long_description=readme,
     url='https://github.com/NilaiVemula/PyCellFIT',
     packages=find_packages(),
     install_requires=requirements,
