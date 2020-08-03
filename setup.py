@@ -21,7 +21,7 @@ with open('requirements.txt', 'r') as f:
 
 setup(
     name='pycellfit',
-    version='0.1.0',
+    version='0.2.0',
     license='MIT',
     author='Nilai Vemula',
     author_email='nilai.r.vemula@vanderbilt.edu',
