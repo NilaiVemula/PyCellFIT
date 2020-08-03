@@ -3,11 +3,18 @@
 
 name: Run tests
 
+# triggers for our workflow
 on:
-  push:
-    branches: [ master ]
+  # opening a pull request to master and develop branch will be a trigger
   pull_request:
-    branches: [ master ]
+    branches:
+      - develop
+      - master
+  # any code pushed to master and develop branch will also be a trigger
+  push:
+    branches:
+      - master
+      - develop
 
 jobs:
   build:
