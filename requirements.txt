@@ -8,6 +8,6 @@ pyparsing==2.4.7
 python-dateutil==2.8.1
 pytz==2020.1
 scipy==1.5.2
-setuptools==49.2.1
+setuptools==49.3.0
 six==1.15.0
 wheel==0.34.2
