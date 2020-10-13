@@ -118,7 +118,7 @@ class Cell:
         """ approximates the coordinates of the center of the cell by averaging the coordinates of points on the
         perimeter (edge) of the cell
 
-        :return approximate center of the cell
+        :return: approximate center of the cell
         :rtype: tuple
         """
 
